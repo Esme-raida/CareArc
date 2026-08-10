@@ -3,12 +3,12 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import { Activity, Brain, ClipboardList, ClockIcon, HeartIcon, Mail, Phone, LocateIcon, Heart } from "lucide-react"
 import { DocumentTextIcon, SparklesIcon, ShieldCheckIcon, DevicePhoneMobileIcon, UserGroupIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline"
 import bgImage from "../assets/clinic_hero_dashboard.png"
-import telehealth from "../assets/clinical_handover.png"
-import homecare from "../assets/physician_review.png"
-import hospital from "../assets/ward_nurses.png"
+import handover from "../assets/clinical_handover.png"
+import physician from "../assets/physician_review.png"
+import wardnurse from "../assets/ward_nurses.png"
 import sarahchen from "../assets/dr_sarah_chen.png"
-import jamesrodriguez from "../assets/nurse_rahma_ali.png"
-import priyapatel from "../assets/dr_emeka_okafor.png"
+import rahmaali from "../assets/nurse_rahma_ali.png"
+import emekaokafor from "../assets/dr_emeka_okafor.png"
 import Footer from "../components/Footer";
 
 
@@ -19,18 +19,18 @@ export default function HomePage() {
         <main className="min-h-screen relative flex flex-col font-sans">
             <header className="w-full flex items-center justify-between bg-blue-100 backdrop:blur-xs px-4 fixed z-50">
                 <div className="flex flex-row py-2.5 gap-2 items-center">
-                    <HeartIcon className="w-11 h-11 px-2.5 bg-blue-500 text-white rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-700" />
+                    <HeartIcon className="w-8 h-8 lg:w-11 lg:h-11 px-2.5 bg-blue-500 text-white rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-700" />
                     <div className="flex flex-col">
-                        <h1 className="flex flex-row text-2xl font-bold">
+                        <h1 className="flex flex-row lg:text-2xl md:text-2xl  font-bold">
                             CareArc
                         </h1>
-                        <span className="text-black text-sm">Patient Intelligence System</span>
+                        <span className="text-black text-xs lg:text-sm md:text-sm">Patient Intelligence System</span>
                     </div>
                 </div>
                 <Link to="/dashboard">
-                    <button className="bg-blue-500 text-white text-xs py-2 px-2.5 rounded-lg flex flex-row gap-3 hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
-                        View Dashboard
-                        <ArrowRightIcon className="w-3 h-4 " />
+                    <button className="bg-blue-500 text-white text-xs py-2 px-2.5 rounded-lg flex flex-row gap-1 hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
+                        Dashboard
+                        <ArrowRightIcon className="w-3 h-4" />
                     </button>
                 </Link>
             </header>
@@ -47,25 +47,25 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-black/85"></div>
 
                 <div className="relative z-10 flex flex-col items-center gap-8">
-                    <button className="flex flex-row items-center gap-1 bg-blue-100 text-blue-500 text-sm font-medium px-4 py-2 rounded-full">
-                        <Activity className="h-3 w-3 text-blue-500" />
+                    <button className="flex flex-row items-center gap-1 bg-blue-100 text-blue-500 text-xs lg:text-sm md: text-sm font-medium px-4 py-2 rounded-full">
+                        <Activity className="h-3 w-3 text-blue-600" />
                         Longitudinal Patient Intelligence Platform
                     </button>
                     <div className="flex items-center justify-center">
-                        <h1 className="text-4xl text-white font-bold text-center">
+                        <h1 className="md:text-3xl lg:text-4xl text-white font-bold text-center">
                             See the patient's full story over time, <br />
                             <span className="text-blue-500">
                                 not just their last reading.
                             </span>
                         </h1>
                     </div>
-                    <span className="text-gray-200 flex justify-center items-center">
+                    <span className="text-gray-200 flex justify-center items-center text-xs md:text-lg lg:text-sm">
                         CareArc turns fragmented patient data — vitals, clinical notes,
                         <br />and trends into a clear, continuous story, with <br /> AI that surfaces what matters most.
                     </span>
-                    <div className="flex gap-5 font-medium text-sm">
+                    <div className="flex gap-5 font-medium text-sm md:text-base lg: text-lg">
                         <Link to="/dashboard">
-                            <button className="flex flex-row items-center gap-3 bg-blue-500 text-white text-sm px-4 py-1.5 rounded-lg hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
+                            <button className="flex flex-row items-center gap-3 bg-blue-500 text-white text-xs md:lg:text-sm lg:text-sm px-4 py-1.5 rounded-lg hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
                                 Try Dashboard
                                 <ArrowRightIcon className="w-3 h-4 " />
                             </button>
@@ -78,11 +78,11 @@ export default function HomePage() {
             {/*HOW IT WORKS*/}
             <section className="flex flex-col items-center justify-center gap-5 py-15 px-5 bg-gray-100">
                 <header>
-                    <h2 className="text-3xl font-bold">
+                    <h2 className="text-2xl md:text-3xl lg:text-3xl font-bold">
                         How CareArc Works
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-gray-600 mb-10">
+                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
                     A simple clinical workflow that builds a complete picture of every patient over time
                 </p>
                 <div className="max-w-4/5 mx-auto">
@@ -116,17 +116,17 @@ export default function HomePage() {
             {/*POWERFUL FEATURES SECTION*/}
             <section className="flex flex-col items-center justify-center gap-5 py-15 px-5">
                 <header>
-                    <h2 className="text-3xl font-bold">
+                    <h2 className="text-2xl md:text-3xl lg:text-3xl font-bold">
                         Powerful Features
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-gray-600 mb-10">
+                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
                     Everything your clinical team needs to track patient journeys and make informed decisions
                 </p>
 
                 <div className="max-w-4/5 mx-auto">
 
-                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 justify-items-center" >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-items-center" >
                         <div className="w-full shadow p-4 border border-gray-300 rounded-lg">
                             <ArrowTrendingUpIcon className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg">Longitudinal Vitals</h3>
@@ -176,23 +176,23 @@ export default function HomePage() {
 
 
             {/*WHO USES  CAREARC*/}
-            <section className="flex flex-col items-center justify-center gap-5 py-15 px-5 bg-gray-100">
+            <section className="flex flex-col items-center justify-center gap-8 py-15 px-5 bg-gray-100">
                 <header>
-                    <h2 className="text-3xl font-bold">
+                    <h2 className="text-2xl md:text-3xl lg:text-3xl font-bold">
                         Who Uses CareArc?
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-gray-600 mb-10">
+                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
                     Built for the clinical teams who track patients over days, not just moments.
                 </p>
 
                 <div className="max-w-4/5 mx-auto">
-                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-3 justify-items-center" >
+                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-5 justify-items-center" >
                         <div className="w-full h-full shadow p-4 border border-gray-300 rounded-lg">
                             <img
-                                src={hospital}
+                                src={wardnurse}
                                 alt="Hospital Ward"
-                                className="w-2xl h-96 lg:h-64 mb-5 rounded-md"
+                                className="w-2xl h-64  mb-5 rounded-md"
                             />
                             <ClipboardList className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg">Ward Nurses</h3>
@@ -204,9 +204,9 @@ export default function HomePage() {
                         </div>
                         <div className="w-full h-full shadow p-4 gap-3 border border-gray-300 rounded-lg">
                             <img
-                                src={homecare}
+                                src={physician}
                                 alt="Physician reviewing patient records"
-                                className="w-2xl h-96 lg:h-64  mb-5 rounded-md"
+                                className="w-2xl h-64  mb-5 rounded-md"
                             />
                             <Brain className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg mb-2">Attending Physicians</h3>
@@ -218,9 +218,9 @@ export default function HomePage() {
                         </div>
                         <div className="w-full h-full shadow p-4 border border-gray-300 rounded-lg">
                             <img
-                                src={telehealth}
+                                src={handover}
                                 alt="Clinical team handover"
-                                className="w-2xl h-96 lg:h-64 mb-5 rounded-md"
+                                className="w-2xl h-64 mb-5 rounded-md"
                             />
                             <DocumentTextIcon className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg mb-2">Handover Teams</h3>
@@ -238,13 +238,11 @@ export default function HomePage() {
             {/*LOVED BY HEALTHCARE PROFESSIONALS*/}
 
             <section className="flex flex-col items-center justify-center gap-5 py-15 px-5">
-                <header>
-                    <h2 className="text-3xl font-bold mb-10">
-                        Loved by Healthcare Professionals
-                    </h2>
-                </header>
+                <h2 className="text-center text-2xl md:text-3xl lg:text-3xl font-bold mb-10">
+                    Loved by Healthcare Professionals
+                </h2>
 
-                <div className="w-[80%]">
+                <div className="w-[85%]">
 
                     <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-3 justify-items-center" >
                         <div className="w-full shadow px-5 pt-10 pb-8 border border-gray-300 rounded-lg">
@@ -273,7 +271,7 @@ export default function HomePage() {
                             </p>
                             <div className="flex gap-4">
                                 <img
-                                    src={jamesrodriguez}
+                                    src={rahmaali}
                                     alt="Nurse Rahma Ali"
                                     className="w-10 rounded-full"
                                 />
@@ -291,7 +289,7 @@ export default function HomePage() {
                             </p>
                             <div className="flex gap-4">
                                 <img
-                                    src={priyapatel}
+                                    src={emekaokafor}
                                     alt=" Dr. Emeka Okafor"
                                     className="w-10 rounded-full"
                                 />
@@ -304,13 +302,13 @@ export default function HomePage() {
                     </div>
 
                 </div>
-                <article className="sm: max-w-4/5 lg: w-full bg-blue-100 flex flex-col items-center text-center gap-5 p-10 mt-5 border border-blue-300 rounded-lg">
-                    <h3 className="text-3xl font-bold">Ready to Transform Patient Care?</h3>
+                <article className="w-[85%] bg-blue-100 flex flex-col items-center text-center gap-5 p-10 mt-5 border border-blue-300 rounded-lg">
+                    <h3 className="text-2xl md:text-3xl lg:text-3xl font-bold">Ready to Transform Patient Care?</h3>
                     <p className="text-gray-500">
                         Join clinical teams already using CareArc to track patient journeys and surface what matters most.
                     </p>
                     <Link to="/dashboard">
-                        <button className="flex items-center  justify-center gap-2 px-2 py-2 border border-blue-700 bg-blue-500 rounded-lg text-white">
+                        <button className="flex items-center justify-center gap-2 px-2 py-2 border border-blue-700 bg-blue-500 rounded-lg text-white">
                             Get Started
                             <ArrowRightIcon className="w-3 h-4 " />
                         </button>
@@ -322,7 +320,7 @@ export default function HomePage() {
 
             <section className="bg-gray-100 flex flex-col items-center px-4 sm:px-8 lg:px-10 w-full">
                 <div className="flex flex-col items-center gap-3 m-10 mb-10">
-                    <h3 className="font-bold text-3xl">Get In Touch</h3>
+                    <h3 className="font-bold text-2xl md:text-3xl lg:text-3xl">Get In Touch</h3>
                     <p className="text-gray-500">Have questions? We'd love to hear from you. Our team is ready to help.</p>
                 </div>
                 <div className="flex w-full max-w-6xl flex-col gap-10 lg:flex-row lg:gap-20">
@@ -353,9 +351,8 @@ export default function HomePage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mb-10 w-full lg:w-auto bg-white border border-gray-200 
-                    p-6 rounded-xl shadow-sm">
-                        <h4 className="pb-4 text-lg font-bold text-blue-700">Clinical Pilot Program</h4>
+                    <div className="mb-10 w-[95%] md:w-full lg:w-full bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
+                        <h4 className="pb-4 text-lg text-center font-bold text-blue-600">Clinical Pilot Program</h4>
                         <div className="flex flex-col gap-4 text-gray-600">
                             <p>CareArc is currently being deployed in active pilot phases across select healthcare systems. We are working closely
                                 with clinical departments to refine our longitudinal timeline structures, delta engines, and AI integrations.

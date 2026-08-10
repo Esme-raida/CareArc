@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     const { appointmentsList } = useAppointments();
     const { patientsArray } = usePatients();
-    console.log(patientsArray)
+
 
     const today = new Date();
 
@@ -26,10 +26,10 @@ export default function Dashboard() {
     const pendingAppointments = todayAppointments.filter((appointment) => !appointment.isCompleted).slice(0, 4);
 
     return (
-        <main className="px-7 min-h-screen">
+        <main className=" bg-gray-100 px-7 min-h-screen h-full w-[90%] md: w-[100%] lg:w-[100%]">
             {/* Header */}
             <header className="mb-8">
-                <div className="flex flex-row gap-1.5 mt-5 text-2xl font-bold w-60 pt-1">
+                <div className="flex flex-row gap-1.5 pt-5 text-2xl font-bold w-60 pt-1">
                     <h1 className="mt-0.5">Clinic Dashboard</h1>
                 </div>
                 <p className="text-gray-500">Overview of Patients & Appointments</p>
@@ -49,8 +49,9 @@ export default function Dashboard() {
                 </div>
             </section>
 
+
             {/* Recent Patients / Appointments */}
-            <section className="flex flex-row gap-5 mb-5">
+            <section className="flex flex-row gap-5 mb-5 md:flex-col">
                 <DashboardCard
                     className="flex justify-between w-3/4"
                     cardTitle="Recently Updated Records"
