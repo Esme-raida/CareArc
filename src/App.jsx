@@ -15,6 +15,7 @@ import PatientsDetail from "./pages/PatientsDetail.jsx";
 import PersonalizedOverview from "./pages/PersonalizedOverview.jsx";
 import PersonalizedAppointments from "./pages/PersonalizedAppointments.jsx";
 import PersonalizedNotes from "./pages/PersonalizedNotes.jsx";
+import PatientTimeline from "./pages/PatientTimeline.jsx";
 
 
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="overview" element={<PersonalizedOverview />} />
             <Route path="appointments" element={<PersonalizedAppointments />} />
             <Route path="notes" element={<PersonalizedNotes />} />
+            <Route path="timeline" element={<PatientTimeline />} />
           </Route>
 
 

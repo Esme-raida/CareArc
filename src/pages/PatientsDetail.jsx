@@ -15,6 +15,7 @@ import PersonalizedQuickActions from "../components/PersonalizedQuickActions.jsx
 import AddNoteForm from "../components/AddNoteForm.jsx";
 import AppointmentForm from "../components/AppointmentForm.jsx";
 import RecordVitalsForm from "../components/RecordVitalsForm.jsx";
+import PatientTimeline from "./PatientTimeline.jsx";
 
 export default function PateintDetail() {
 
@@ -194,13 +195,13 @@ export default function PateintDetail() {
 
                 {/*NAV LINKS*/}
                 <nav className="bg-gray-200 flex flex-row w-80 gap-2 px-2 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
-                    <IndividualNavLink to="overview" name="Overview" />
                     <IndividualNavLink to="appointments" name="Appointments" />
                     <IndividualNavLink to="notes" name="Notes" patientNotes={patientNotes} />
+                    <IndividualNavLink to="timeline" name="Timeline" />
                 </nav>
 
                 <div >
-                    <PatientDetailContext.Provider value={{ patient, latestVital, patientNotes, setNotesArray, appointmentsList, setAppointmentsList }} >
+                    <PatientDetailContext.Provider value={{ patient, latestVital, patientNotes, patientVitals, setNotesArray, appointmentsList, setAppointmentsList }} >
                         {/*So everything in here can now access the data*/}
                         <Outlet />
                     </PatientDetailContext.Provider>

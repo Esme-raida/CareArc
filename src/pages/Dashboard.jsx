@@ -6,14 +6,38 @@ import IndividualAppointment from "../components/Individualappointment";
 import DashboardQuickActions from "../components/DashboardQuickActions";
 import useAppointments from "../hooks/useAppointments";
 import usePatients from "../hooks/usePatients";
+import useVitals from "../hooks/useVitals";
+import useThresholds from "../hooks/useThreshold.jsx";
+import { getStatus } from "../utils/getStatus.js";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
     const { appointmentsList } = useAppointments();
     const { patientsArray } = usePatients();
+    const { vitalsArray } = useVitals();
+    const { thresholds } = useThresholds();
 
 
+    const filteredPatients = patientsArray.filter((patient) => {
+        const patientVitals = vitalsArray.filter((vital) => vital.patientId === patient.id);
+
+        if (patientVitals.length === 0) {
+            return false;
+        }
+
+        const latestVital = patientVitals.reduce((latest, current) =>
+            new Date(current.timestamp) > new Date(latest.timestamp) ? current : latest
+        );
+
+        //Get the health status of the patient 
+        const healthStatus = getStatus(latestVital, thresholds);
+
+        if (healthStatus === "Critical" || healthStatus === "Warning") {
+            return true;
+        }
+
+    });
     const today = new Date();
 
     // Filter today's appointments
@@ -51,21 +75,30 @@ export default function Dashboard() {
 
 
             {/* Recent Patients / Appointments */}
-            <section className="flex flex-row gap-5 mb-5 md:flex-col">
+            <section className="flex flex-col gap-3 mb-5 md:flex-row lg:flex-row">
                 <DashboardCard
                     className="flex justify-between w-3/4"
-                    cardTitle="Recently Updated Records"
+                    cardTitle="High-acuity patients"
                     iconColor="text-purple-500"
                     icon={UserGroupIcon}
-                    action={<span className="flex flex-row font-semibold">View All</span>}
+                    action={<Link to={'dashboard/patients'}>View All</Link>}
                 >
                     {/* Optionally, list some recent patients here */}
+                    <span className="flex flex-col font-semibold text-purple-700">
+                        <ul className="flex flex-col ml-10 gap-5 list-disc">
+                            {filteredPatients.length > 0 ? filteredPatients.map((patient) => (
+                                <li key={patient.id}>
+                                    <Link to={`/dashboard/patients/patientsdetail/${patient.id}`}>{patient.name}</Link>
+                                </li>
+                            )) : "No high-acuity patients at this moment"}
+                        </ul >
+                    </span>
                 </DashboardCard>
 
                 <DashboardCard className="flex flex-col" cardTitle="Today's Appointments" iconColor="text-blue-500" icon={Clock4Icon}>
                     <div className="flex flex-col gap-2">
                         {pendingAppointments.length === 0 ? (
-                            <p className="text-gray-500">No appointments today</p>
+                            <p className="text-gray-500 ml-5">No appointments today</p>
                         ) : (
                             pendingAppointments.map((appointment) => (
                                 <IndividualAppointment

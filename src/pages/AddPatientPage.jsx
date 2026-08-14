@@ -42,7 +42,8 @@ export default function AddPatientPage() {
         status: "",
         admitted: "",
         heartRate: "",
-        bloodPressure: "",
+        systolic: "",
+        diastolic: "",
         oxygen: "",
         temperature: "",
         respiratoryRate: ""
@@ -79,7 +80,7 @@ export default function AddPatientPage() {
                     const newVitals = {
                         patientId: newPatientData.id,
                         heartRate: formData.heartRate,
-                        bloodPressure: formData.bloodPressure,
+                        bloodPressure: { systolic: formData.systolic, diastolic: formData.diastolic },
                         oxygen: formData.oxygen,
                         temperature: formData.temperature,
                         respiratoryRate: formData.respiratoryRate,
@@ -100,7 +101,8 @@ export default function AddPatientPage() {
                         status: "",
                         admitted: "",
                         heartRate: "",
-                        bloodPressure: "",
+                        systolic: "",
+                        diastolic: "",
                         oxygen: "",
                         temperature: "",
                         respiratoryRate: ""
@@ -155,7 +157,7 @@ export default function AddPatientPage() {
                         }} />
 
                         {/*Status*/}
-                        <InputComponent label="Status" type="text" placeholder="Critical" value={formData.room} onChange={(e) => {
+                        <InputComponent label="Status" type="text" placeholder="Critical" value={formData.status} onChange={(e) => {
                             setFormData({ ...formData, status: e.target.value })
                         }} />
 
@@ -174,9 +176,14 @@ export default function AddPatientPage() {
                             setFormData({ ...formData, heartRate: e.target.value })
                         }} />
 
-                        {/*Blood Pressure*/}
-                        <InputComponent label="Blood Pressure" type="text" placeholder="135/90 mmHg" value={formData.bloodPressure} onChange={(e) => {
-                            setFormData({ ...formData, bloodPressure: e.target.value })
+                        {/*Blood Pressure - Systolic*/}
+                        <InputComponent label="Systolic BP" type="text" placeholder="135 mmHg" value={formData.systolic} onChange={(e) => {
+                            setFormData({ ...formData, systolic: e.target.value })
+                        }} />
+
+                        {/*Blood Pressure - Diastolic*/}
+                        <InputComponent label="Diastolic BP" type="text" placeholder="90 mmHg" value={formData.diastolic} onChange={(e) => {
+                            setFormData({ ...formData, diastolic: e.target.value })
                         }} />
 
                         {/*Oxygen*/}

@@ -11,10 +11,10 @@ export default function AddNoteForm({ setIsNoteFormOpen, setNotesArray, patientI
 
         const newNote = {
             ...noteData,
+            id: `NOTE-${Date.now()}`,
             patientId: patientId,
-            createdAt: Date.now()
-        };
-
+            timestamp: new Date().toISOString()
+        }
         //Update state for immediate recovery
         setNotesArray(prev => [...prev, newNote]);
 

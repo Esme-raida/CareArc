@@ -5,6 +5,7 @@ import AppointmentForm from "../components/AppointmentForm";
 import { Clock4Icon } from "lucide-react";
 import IndividualupcomingAppointment from "../components/UpcomingAppointments";
 import useAppointments from "../hooks/useAppointments";
+import { getAppointmentStatus } from "../utils/getAppointmentStatus";
 
 export default function Appointments({ }) {
 
@@ -13,45 +14,6 @@ export default function Appointments({ }) {
     // State to check if the form/dropdown is open or closed
     const [isFormOpen, setIsFormOpen] = useState(false);
 
-
-    //CREATING A STATUS FUNCTIONALITY FOR COMPARISON
-    const getStatus = (newAppointment) => {
-
-
-        const today = new Date();
-        const todayDateOnly = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate()
-        );
-
-        const appointmentDate = new Date(newAppointment.date);
-        const appointmentDateOnly = new Date(
-            appointmentDate.getFullYear(),
-            appointmentDate.getMonth(),
-            appointmentDate.getDate()
-        );
-
-        const appointmentDateTime = new Date(`${newAppointment.date} ${newAppointment.time}`); //combining the date and time together.
-        const appointmentEndTime = new Date(appointmentDateTime.getTime() + newAppointment.duration * 60000);
-
-        //FOR GETTING THE STATUS FOR THE STATUS BADGE
-        if (newAppointment.isCompleted) return "completed";
-
-        if (appointmentDateOnly.getTime() === todayDateOnly.getTime()) {
-            if (appointmentDateTime > today) {
-                return "upcoming";
-            } else if (today >= appointmentDateTime && today <= appointmentEndTime) {
-                return "ongoing";
-            } else return "missed";
-
-        } else if (appointmentDateOnly > todayDateOnly) {
-            return "scheduled";
-        } else return "missed";
-    }
-
-
-
     const todayAppointments = appointmentsList.filter((newAppointment) => {
         const today = new Date();
         const appointmentDate = new Date(newAppointment.date);
@@ -59,10 +21,9 @@ export default function Appointments({ }) {
         return appointmentDate.toDateString() === today.toDateString();
     });
 
-    const upcomingAppointments = appointmentsList.filter(newAppointment => getStatus(newAppointment) === "scheduled");
-    const completedAppointments = appointmentsList.filter(newAppointment => getStatus(newAppointment) === "completed");
-    const missedAppointments = appointmentsList.filter(newAppointment => getStatus(newAppointment) === "missed")
-
+    const upcomingAppointments = appointmentsList.filter(newAppointment => getAppointmentStatus(newAppointment) === "scheduled");
+    const completedAppointments = appointmentsList.filter(newAppointment => getAppointmentStatus(newAppointment) === "completed");
+    const missedAppointments = appointmentsList.filter(newAppointment => getAppointmentStatus(newAppointment) === "missed")
 
     const markAsCompleted = (id) => {
         setAppointmentsList(prev =>
@@ -114,7 +75,7 @@ export default function Appointments({ }) {
                                 appointmentType={appointment.type}
                                 timing={appointment.time}
                                 duration={appointment.duration}
-                                state={getStatus(appointment)} />
+                                state={getAppointmentStatus(appointment)} />
                         ))}
                     </section>
 

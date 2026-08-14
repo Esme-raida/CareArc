@@ -3,44 +3,14 @@ import { useParams } from "react-router-dom";
 import { CalendarIcon } from "lucide-react";
 import IndividualAppointment from "../components/Individualappointment";
 import { PatientDetailContext } from "../context/PatientsDetailContext";
+import { getAppointmentStatus } from "../utils/getAppointmentStatus";
 
 export default function PersonalizedAppointments() {
 
-    const { appointmentsList, patient } = useContext(PatientDetailContext);
+    const { appointmentsList } = useContext(PatientDetailContext);
     const { patientsId: currentPatientId } = useParams(); //this is the current patient ID
+    const patientAppointments = appointmentsList.filter((newAppointment) => newAppointment.patientId === currentPatientId);
 
-    //CREATING A STATUS FUNCTIONALITY FOR COMPARISON
-    const getStatus = (newAppointment) => {
-        // We put the date variables back inside the function so it works!
-        const today = new Date();
-        const todayDateOnly = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate()
-        );
-
-        const appointmentDate = new Date(newAppointment.date);
-        const appointmentDateOnly = new Date(
-            appointmentDate.getFullYear(),
-            appointmentDate.getMonth(),
-            appointmentDate.getDate()
-        );
-
-        const appointmentDateTime = new Date(`${newAppointment.date} ${newAppointment.time}`);
-        const appointmentEndTime = new Date(appointmentDateTime.getTime() + newAppointment.duration * 60000);
-
-        if (newAppointment.isCompleted) return "completed";
-
-        if (appointmentDateOnly.getTime() === todayDateOnly.getTime()) {
-            if (appointmentDateTime > today) {
-                return "upcoming";
-            } else if (today >= appointmentDateTime && today <= appointmentEndTime) {
-                return "ongoing";
-            } else return "missed";
-        } else if (appointmentDateOnly > todayDateOnly) {
-            return "scheduled";
-        } else return "missed";
-    }
 
     //FILTERING APPOINTMENTS 
     //Today's appointments
@@ -50,8 +20,8 @@ export default function PersonalizedAppointments() {
         return appointmentDate.toDateString() === today.toDateString();
     });
 
-    //Future Appointments using getStatus
-    const upcomingAppointments = patientAppointments.filter((appointment) => getStatus(appointment) === "scheduled")
+    //Future Appointments using getAppointmentStatus
+    const upcomingAppointments = patientAppointments.filter((appointment) => getAppointmentStatus(appointment) === "scheduled")
 
     return (
         <div>
@@ -69,7 +39,7 @@ export default function PersonalizedAppointments() {
                                         appointmentType={appointment.type}
                                         timing={appointment.time}
                                         duration={appointment.duration}
-                                        state={getStatus(appointment)} />
+                                        state={getAppointmentStatus(appointment)} />
                                 ))
                             ) : (
                                 <span className="text-gray-500 text-sm">No appointments scheduled for today.</span>
@@ -86,7 +56,7 @@ export default function PersonalizedAppointments() {
                                         appointmentType={appointment.type}
                                         timing={`${appointment.date} @ ${appointment.time}`} // Shows date & time
                                         duration={appointment.duration}
-                                        state={getStatus(appointment)} />
+                                        state={getAppointmentStatus(appointment)} />
                                 ))
                             ) : (
                                 <span className="text-gray-500 text-sm">No upcoming appointments scheduled.</span>

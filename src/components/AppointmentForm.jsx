@@ -88,9 +88,9 @@ export default function AppointmentForm({ setAppointmentsList, setIsFormOpen, de
                     />
 
                     <InputComponent
-                        label="Duration"
-                        placeholder="30 minutes"
-                        type="text"
+                        label="Duration(minutes)"
+                        placeholder="30"
+                        type="number"
                         value={formData.duration} //makes the input display what is in the input box
                         onChange={(e) => { //runs everytime the user types a character
                             setFormData({ ...formData, duration: e.target.value });
