@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/Home";
 import DashboardLayout from "./pages/DashboardLayout";
 import Dashboard from "./pages/Dashboard"
@@ -16,8 +16,6 @@ import PersonalizedOverview from "./pages/PersonalizedOverview.jsx";
 import PersonalizedAppointments from "./pages/PersonalizedAppointments.jsx";
 import PersonalizedNotes from "./pages/PersonalizedNotes.jsx";
 import PatientTimeline from "./pages/PatientTimeline.jsx";
-
-
 
 function App() {
 
@@ -41,19 +39,19 @@ function App() {
 
           {/*Patients Details Page*/}
           <Route path="patients/patientsdetail/:patientsId" element={<PatientsDetail />} >
+            <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<PersonalizedOverview />} />
             <Route path="appointments" element={<PersonalizedAppointments />} />
             <Route path="notes" element={<PersonalizedNotes />} />
             <Route path="timeline" element={<PatientTimeline />} />
           </Route>
 
-
           {/*React router appends /dashboard automatically because it is nested*/}
           <Route path="appointments" element={<Appointments />} />
 
           {/*Settings Page with nested routes */}
-
           <Route path="settings" element={<Settings />}>
+            <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<Profile />} />
             <Route path="system" element={<System />} />
             <Route path="notifications" element={<Notifications />} />

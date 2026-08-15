@@ -1,77 +1,118 @@
 const today = new Date();
 const formatDate = (date) => date.toISOString().split("T")[0];
 
+const tomorrow = new Date(today.getTime() + 86400000);
+const yesterday = new Date(today.getTime() - 86400000);
+const nextWeek = new Date(today.getTime() + 7 * 86400000);
+
 export const appointmentsData = [
+  // PT-001: Amina Yusuf
   {
     id: 1,
-    name: "John Smith",
+    patientId: "PT-001",
+    name: "Amina Yusuf",
     type: "Follow-up",
-    time: "09:00:00",
+    time: "09:00",
     duration: 30,
-    isCompleted: true, //meaning it was completed today
-    date: formatDate(today),
-  },
-  {
-    id: 2,
-    name: "Mary Johnson",
-    type: "Consultation",
-    time: "10:30:00",
-    duration: 45,
     isCompleted: true,
     date: formatDate(today),
   },
   {
+    id: 2,
+    patientId: "PT-001",
+    name: "Amina Yusuf",
+    type: "Consultation",
+    time: "10:00",
+    duration: 45,
+    isCompleted: false,
+    date: formatDate(tomorrow),
+  },
+
+  // PT-002: John Okafor
+  {
     id: 3,
-    name: "David Alee",
-    type: "Follow-up",
-    time: "12:00:00",
-    duration: 30,
+    patientId: "PT-002",
+    name: "John Okafor",
+    type: "Consultation",
+    time: "10:30",
+    duration: 45,
     isCompleted: true,
     date: formatDate(today),
   },
   {
     id: 4,
-    name: "MaryAnn Azenda",
-    type: "Consultation",
-    time: "14:00:00",
-    duration: 45,
+    patientId: "PT-002",
+    name: "John Okafor",
+    type: "Check-up",
+    time: "14:00",
+    duration: 30,
     isCompleted: false,
-    date: formatDate(today),
+    date: formatDate(tomorrow),
   },
+
+  // PT-003: Mary Adebayo
   {
     id: 5,
-    name: "Robert Brown",
+    patientId: "PT-003",
+    name: "Mary Adebayo",
     type: "Check-up",
-    time: "14:40:00",
+    time: "12:00",
     duration: 30,
-    isCompleted: false, //may become ongoing/missed
+    isCompleted: true,
     date: formatDate(today),
   },
   {
     id: 6,
-    name: "Emily Davis",
+    patientId: "PT-003",
+    name: "Mary Adebayo",
     type: "Follow-up",
-    time: "15:30:00",
+    time: "11:00",
     duration: 30,
     isCompleted: false,
-    date: formatDate(new Date(today.getTime() + 86400000)), //calculates against tomorrow 
+    date: formatDate(nextWeek),
   },
+
+  // PT-004: Bello Kasim
   {
     id: 7,
-    name: "Michael Wilson",
+    patientId: "PT-004",
+    name: "Bello Kasim",
     type: "Consultation",
-    time: "16:30:00",
+    time: "14:00",
     duration: 45,
     isCompleted: false,
-    date: formatDate(new Date(today.getTime() + 86400000)), //calculates against tomorrow 
+    date: formatDate(today),
   },
   {
     id: 8,
-    name: "Asher Thompson",
-    type: "Check-up",
-    time: "17:30:00",
+    patientId: "PT-004",
+    name: "Bello Kasim",
+    type: "Follow-up",
+    time: "15:30",
     duration: 30,
     isCompleted: false,
-    date: formatDate(new Date(today.getTime() - 86400000)), //calculates yesterday 
-  }
+    date: formatDate(tomorrow),
+  },
+
+  // PT-005: Chidinma Eze
+  {
+    id: 9,
+    patientId: "PT-005",
+    name: "Chidinma Eze",
+    type: "Follow-up",
+    time: "15:30",
+    duration: 30,
+    isCompleted: false,
+    date: formatDate(today),
+  },
+  {
+    id: 10,
+    patientId: "PT-005",
+    name: "Chidinma Eze",
+    type: "Check-up",
+    time: "16:30",
+    duration: 30,
+    isCompleted: false,
+    date: formatDate(tomorrow),
+  },
 ];

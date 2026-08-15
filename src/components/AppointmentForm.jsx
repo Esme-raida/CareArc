@@ -25,7 +25,7 @@ export default function AppointmentForm({ setAppointmentsList, setIsFormOpen, de
 
     return (
         <form
-            className="fixed w-[75%] top-30 translate-x-[20%]"
+            className="w-full max-w-lg bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden flex flex-col max-h-[90vh]"
             onSubmit={(e) => {
                 e.preventDefault(); //prevent the default reload
 
@@ -56,16 +56,46 @@ export default function AppointmentForm({ setAppointmentsList, setIsFormOpen, de
 
 
             }} >
-            <div className="flex flex-col w-full border border-gray-200 shadow-sm rounded-xl px-6 py-5 bg-white">
-                <div className="flex justify-between">
-                    <h2 className="font-semibold text-2xl mb-5">New Patient Information</h2>
+            <div className="flex flex-col w-full px-6 py-5">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+                    <h2 className="font-semibold text-xl">New Appointment</h2>
+                    <button
+                        type="button"
+                        onClick={() => setIsFormOpen(false)}
+                        className="text-gray-400 hover:text-gray-600 font-bold"
+                    >
+                        ✕
+                    </button>
                 </div>
                 <div className="flex flex-col gap-4">
-                    <InputComponent
-                        label="Patient ID"
-                        value={formData.patientId} //makes the input display what is in the input box
-                        disabled
-                    />
+                    {defaultPatientId ? (
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-semibold text-gray-700">Patient</label>
+                            <input
+                                type="text"
+                                value={`${patientsArray.find(p => p.id === defaultPatientId)?.name || 'Patient'} (${defaultPatientId})`}
+                                disabled
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100 text-gray-700 text-sm font-medium focus:outline-none"
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-semibold text-gray-700">Select Patient <span className="text-red-500">*</span></label>
+                            <select
+                                required
+                                value={formData.patientId}
+                                onChange={(e) => setFormData({ ...formData, patientId: e.target.value })}
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-800 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition"
+                            >
+                                <option value="" disabled>Choose a patient from directory...</option>
+                                {patientsArray.map((patient) => (
+                                    <option key={patient.id} value={patient.id}>
+                                        {patient.name} ({patient.id}) — {patient.room || patient.condition}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
                     <InputComponent
                         label="Appointment Type"
@@ -108,9 +138,21 @@ export default function AppointmentForm({ setAppointmentsList, setIsFormOpen, de
                     />
                 </div>
 
-                <button type="submit"
-                    className="border rounded-md border-gray-300 bg-blue-500 text-white py-1 mt-5"> Submit
-                </button>
+                <div className="flex flex-row justify-end gap-3 mt-6 border-t border-gray-100 pt-4">
+                    <button
+                        type="button"
+                        onClick={() => setIsFormOpen(false)}
+                        className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50 text-gray-700 text-sm font-semibold transition"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 text-sm font-semibold transition"
+                    >
+                        Submit
+                    </button>
+                </div>
             </div>
 
         </form>

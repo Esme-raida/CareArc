@@ -11,6 +11,12 @@ export default function PersonalizedAppointments() {
     const { patientsId: currentPatientId } = useParams(); //this is the current patient ID
     const patientAppointments = appointmentsList.filter((newAppointment) => newAppointment.patientId === currentPatientId);
 
+    const getPractitionerName = (type) => {
+        if (type === "Consultation") return "Dr. Sarah Chen";
+        if (type === "Follow-up") return "Dr. Emeka Okafor";
+        if (type === "Check-up") return "Nurse Rahma Ali";
+        return "Attending Physician";
+    };
 
     //FILTERING APPOINTMENTS 
     //Today's appointments
@@ -36,6 +42,7 @@ export default function PersonalizedAppointments() {
                                 todayAppointments.map((appointment) => (
                                     <IndividualAppointment
                                         key={appointment.id}
+                                        name={getPractitionerName(appointment.type)}
                                         appointmentType={appointment.type}
                                         timing={appointment.time}
                                         duration={appointment.duration}
@@ -53,6 +60,7 @@ export default function PersonalizedAppointments() {
                                 upcomingAppointments.map((appointment) => (
                                     <IndividualAppointment
                                         key={appointment.id}
+                                        name={getPractitionerName(appointment.type)}
                                         appointmentType={appointment.type}
                                         timing={`${appointment.date} @ ${appointment.time}`} // Shows date & time
                                         duration={appointment.duration}

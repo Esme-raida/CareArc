@@ -50,18 +50,18 @@ export default function Dashboard() {
     const pendingAppointments = todayAppointments.filter((appointment) => !appointment.isCompleted).slice(0, 4);
 
     return (
-        <main className=" bg-gray-100 px-7 min-h-screen h-full w-[90%] md: w-[100%] lg:w-[100%]">
+        <main className="bg-gray-100 px-4 sm:px-6 lg:px-8 min-h-screen h-full w-full max-w-7xl mx-auto">
             {/* Header */}
-            <header className="mb-8">
-                <div className="flex flex-row gap-1.5 pt-5 text-2xl font-bold w-60 pt-1">
-                    <h1 className="mt-0.5">Clinic Dashboard</h1>
+            <header className="mb-6 pt-6">
+                <div className="flex items-center gap-1.5 text-2xl font-bold">
+                    <h1>Clinic Dashboard</h1>
                 </div>
-                <p className="text-gray-500">Overview of Patients & Appointments</p>
+                <p className="text-gray-500 text-sm">Overview of Patients & Appointments</p>
             </header>
 
             {/* Stat Cards */}
-            <section className="flex flex-col gap-5 mb-5">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <section className="mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <StatCard cardLabel="Total Patients" CardValue={patientsArray.length} icon={UserGroupIcon} iconColor="text-blue-500" />
                     <StatCard cardLabel="Today's Appointments" CardValue={todayAppointments.length} icon={CalendarIcon} iconColor="text-green-500" />
                     <StatCard cardLabel="Pending Visits" CardValue={todayAppointments.filter((appointmentsList) => !appointmentsList.isCompleted).length} icon={DocumentDuplicateIcon} iconColor="text-amber-500" />
@@ -75,30 +75,29 @@ export default function Dashboard() {
 
 
             {/* Recent Patients / Appointments */}
-            <section className="flex flex-col gap-3 mb-5 md:flex-row lg:flex-row">
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
                 <DashboardCard
-                    className="flex justify-between w-3/4"
                     cardTitle="High-acuity patients"
                     iconColor="text-purple-500"
                     icon={UserGroupIcon}
-                    action={<Link to={'dashboard/patients'}>View All</Link>}
+                    action={<Link to={'/dashboard/patients'} className="text-sm text-blue-600 hover:underline">View All</Link>}
                 >
                     {/* Optionally, list some recent patients here */}
-                    <span className="flex flex-col font-semibold text-purple-700">
-                        <ul className="flex flex-col ml-10 gap-5 list-disc">
+                    <div className="flex flex-col font-semibold text-purple-700">
+                        <ul className="flex flex-col gap-3 list-disc pl-5">
                             {filteredPatients.length > 0 ? filteredPatients.map((patient) => (
-                                <li key={patient.id}>
+                                <li key={patient.id} className="hover:underline">
                                     <Link to={`/dashboard/patients/patientsdetail/${patient.id}`}>{patient.name}</Link>
                                 </li>
-                            )) : "No high-acuity patients at this moment"}
+                            )) : <span className="text-gray-500 text-sm font-normal">No high-acuity patients at this moment</span>}
                         </ul >
-                    </span>
+                    </div>
                 </DashboardCard>
 
-                <DashboardCard className="flex flex-col" cardTitle="Today's Appointments" iconColor="text-blue-500" icon={Clock4Icon}>
+                <DashboardCard cardTitle="Today's Appointments" iconColor="text-blue-500" icon={Clock4Icon}>
                     <div className="flex flex-col gap-2">
                         {pendingAppointments.length === 0 ? (
-                            <p className="text-gray-500 ml-5">No appointments today</p>
+                            <p className="text-gray-500 text-sm pl-2">No appointments today</p>
                         ) : (
                             pendingAppointments.map((appointment) => (
                                 <IndividualAppointment
@@ -117,12 +116,12 @@ export default function Dashboard() {
             </section>
 
             {/* Quick Actions */}
-            <h2 className="font-semibold mt-5 mb-3">Quick Actions</h2>
-            <div className="flex flex-row gap-3 mb-5">
-                <Link to={'/dashboard/patients/addpatientpage'}>
+            <h2 className="font-semibold text-lg mt-6 mb-3">Quick Actions</h2>
+            <div className="flex flex-row flex-wrap gap-4 mb-8">
+                <Link to={'/dashboard/patients/addpatientpage'} className="flex-1 min-w-[140px] max-w-[200px]">
                     <DashboardQuickActions quickActionTitle="Add Patient" icon={UserPlusIcon} />
                 </Link>
-                <Link to={'/dashboard/appointments'}>
+                <Link to={'/dashboard/appointments'} className="flex-1 min-w-[140px] max-w-[200px]">
                     <DashboardQuickActions quickActionTitle="New Appointment" icon={PlusIcon} />
                 </Link>
                 {/* Future actions like Generate Report or Configure Alerts can be added later */}

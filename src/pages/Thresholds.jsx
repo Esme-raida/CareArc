@@ -23,9 +23,9 @@ export default function Thresholds() {
             <div className="flex flex-col border border-gray-200 shadow-sm rounded-xl w-full px-6 pt-8 pb-32 bg-white">
                 <header className="flex flex-row gap-1">
                     <ActivityIcon className="h-7 w-7 p-1" />
-                    <h2 className="font-semibold text-2xl">Vital Signs Thresholds</h2>
+                    <h2 className="font-semibold text-2xl">Vital Signs Normal Ranges</h2>
                 </header>
-                <span className="mb-8 text-gray-500">Set alert thresholds for patient monitoring </span>
+                <span className="mb-8 text-gray-500">Set baseline clinical reference ranges for patient monitoring</span>
 
                 <div className="flex flex-col gap-6">
                     {/*Heart Rate*/}
@@ -47,7 +47,8 @@ export default function Thresholds() {
                         label1="Systolic Low"
                         inputValue1={thresholds.bloodPressure.systolicMin}
                         label2="Systolic High"
-                        inputValue2={thresholds.bloodPressure.systolicMax} />
+                        inputValue2={thresholds.bloodPressure.systolicMax}
+                        onThresholdChange={updateThreshold} />
 
                     {/*OXYGEN SATURATION*/}
                     <VitalSigns
@@ -57,7 +58,8 @@ export default function Thresholds() {
                         label1="Critical Threshold"
                         inputValue1={thresholds.oxygen.min}
                         label2="Warning Threshold"
-                        inputValue2={thresholds.oxygen.max} />
+                        inputValue2={thresholds.oxygen.max}
+                        onThresholdChange={updateThreshold} />
 
                     {/*Temperature*/}
                     <VitalSigns
@@ -67,7 +69,8 @@ export default function Thresholds() {
                         label1="Low Threshold"
                         inputValue1={thresholds.temperature.min}
                         label2="High Threshold"
-                        inputValue2={thresholds.temperature.max} />
+                        inputValue2={thresholds.temperature.max}
+                        onThresholdChange={updateThreshold} />
                 </div>
             </div>
             <SaveChanges />

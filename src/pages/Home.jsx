@@ -17,27 +17,27 @@ export default function HomePage() {
     return (
 
         <main className="min-h-screen relative flex flex-col font-sans">
-            <header className="w-full flex items-center justify-between bg-blue-100 backdrop:blur-xs px-4 fixed z-50">
-                <div className="flex flex-row py-2.5 gap-2 items-center">
-                    <HeartIcon className="w-8 h-8 lg:w-11 lg:h-11 px-2.5 bg-blue-500 text-white rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-700" />
+            <header className="w-full flex items-center justify-between bg-blue-100/90 backdrop-blur-xs px-4 py-2.5 fixed top-0 z-50 border-b border-blue-200">
+                <div className="flex flex-row gap-2 items-center">
+                    <HeartIcon className="w-8 h-8 lg:w-10 lg:h-10 p-1.5 bg-blue-500 text-white rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-700" />
                     <div className="flex flex-col">
-                        <h1 className="flex flex-row lg:text-2xl md:text-2xl  font-bold">
+                        <h1 className="text-lg md:text-xl lg:text-2xl font-bold leading-tight">
                             CareArc
                         </h1>
-                        <span className="text-black text-xs lg:text-sm md:text-sm">Patient Intelligence System</span>
+                        <span className="text-black text-[10px] md:text-xs">Patient Intelligence System</span>
                     </div>
                 </div>
                 <Link to="/dashboard">
-                    <button className="bg-blue-500 text-white text-xs py-2 px-2.5 rounded-lg flex flex-row gap-1 hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
+                    <button className="bg-blue-500 text-white text-xs md:text-sm py-1.5 px-3 rounded-lg flex flex-row gap-1 items-center hover:scale-105 hover:cursor-pointer hover:bg-blue-700 transition-all">
                         Dashboard
-                        <ArrowRightIcon className="w-3 h-4" />
+                        <ArrowRightIcon className="w-3.5 h-3.5" />
                     </button>
                 </Link>
             </header>
 
             {/* HERO SECTION */}
             <section
-                className="relative py-48 flex flex-col justify-center items-center text-center">
+                className="relative min-h-[85vh] pt-32 pb-20 flex flex-col justify-center items-center text-center px-4">
                 <img
                     src={bgImage}
                     alt="Healthcare Dashboard"
@@ -46,28 +46,28 @@ export default function HomePage() {
 
                 <div className="absolute inset-0 bg-black/85"></div>
 
-                <div className="relative z-10 flex flex-col items-center gap-8">
-                    <button className="flex flex-row items-center gap-1 bg-blue-100 text-blue-500 text-xs lg:text-sm md: text-sm font-medium px-4 py-2 rounded-full">
-                        <Activity className="h-3 w-3 text-blue-600" />
+                <div className="relative z-10 flex flex-col items-center gap-6 max-w-4xl">
+                    <button className="flex flex-row items-center gap-1.5 bg-blue-100 text-blue-500 text-xs md:text-sm font-medium px-4 py-2 rounded-full">
+                        <Activity className="h-3.5 w-3.5 text-blue-600" />
                         Longitudinal Patient Intelligence Platform
                     </button>
-                    <div className="flex items-center justify-center">
-                        <h1 className="md:text-3xl lg:text-4xl text-white font-bold text-center">
-                            See the patient's full story over time, <br />
+                    <div className="flex items-center justify-center px-2">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-bold text-center leading-tight">
+                            See the patient's full story over time, <br className="hidden md:inline" />
                             <span className="text-blue-500">
                                 not just their last reading.
                             </span>
                         </h1>
                     </div>
-                    <span className="text-gray-200 flex justify-center items-center text-xs md:text-lg lg:text-sm">
+                    <span className="text-gray-300 flex justify-center items-center text-xs sm:text-sm md:text-base max-w-2xl leading-relaxed">
                         CareArc turns fragmented patient data — vitals, clinical notes,
-                        <br />and trends into a clear, continuous story, with <br /> AI that surfaces what matters most.
+                        and trends into a clear, continuous story, with AI that surfaces what matters most.
                     </span>
-                    <div className="flex gap-5 font-medium text-sm md:text-base lg: text-lg">
+                    <div className="flex gap-4 font-medium mt-2">
                         <Link to="/dashboard">
-                            <button className="flex flex-row items-center gap-3 bg-blue-500 text-white text-xs md:lg:text-sm lg:text-sm px-4 py-1.5 rounded-lg hover:scale-105 hover:cursor-pointer hover:bg-blue-700">
+                            <button className="flex flex-row items-center gap-2 bg-blue-500 text-white text-xs md:text-sm px-5 py-2.5 rounded-lg hover:scale-105 hover:cursor-pointer hover:bg-blue-700 transition-all">
                                 Try Dashboard
-                                <ArrowRightIcon className="w-3 h-4 " />
+                                <ArrowRightIcon className="w-3.5 h-3.5" />
                             </button>
                         </Link>
                     </div>
@@ -82,11 +82,11 @@ export default function HomePage() {
                         How CareArc Works
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
+                <p className="text-center text-sm md:text-base lg:text-lg text-gray-600 mb-10 max-w-2xl px-4">
                     A simple clinical workflow that builds a complete picture of every patient over time
                 </p>
-                <div className="max-w-4/5 mx-auto">
-                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-3 justify-items-center" >
+                <div className="max-w-6xl mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center" >
                         <div className="w-full shadow p-4 border border-gray-300 rounded-lg">
                             <ClipboardList className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg">1. Record Data</h3>
@@ -120,13 +120,13 @@ export default function HomePage() {
                         Powerful Features
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
+                <p className="text-center text-sm md:text-base lg:text-lg text-gray-600 mb-10 max-w-2xl px-4">
                     Everything your clinical team needs to track patient journeys and make informed decisions
                 </p>
 
-                <div className="max-w-4/5 mx-auto">
+                <div className="max-w-6xl mx-auto px-4">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-items-center" >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center" >
                         <div className="w-full shadow p-4 border border-gray-300 rounded-lg">
                             <ArrowTrendingUpIcon className="h-8 w-8 mb-3 text-blue-500" />
                             <h3 className="font-semibold text-lg">Longitudinal Vitals</h3>
@@ -182,12 +182,12 @@ export default function HomePage() {
                         Who Uses CareArc?
                     </h2>
                 </header>
-                <p className="flex items-center text-center text-sm md:text-base lg: text-lg text-gray-600 mb-10">
+                <p className="text-center text-sm md:text-base lg:text-lg text-gray-600 mb-10 max-w-2xl px-4">
                     Built for the clinical teams who track patients over days, not just moments.
                 </p>
 
-                <div className="max-w-4/5 mx-auto">
-                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-5 justify-items-center" >
+                <div className="max-w-6xl mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center" >
                         <div className="w-full h-full shadow p-4 border border-gray-300 rounded-lg">
                             <img
                                 src={wardnurse}
@@ -242,9 +242,9 @@ export default function HomePage() {
                     Loved by Healthcare Professionals
                 </h2>
 
-                <div className="w-[85%]">
+                <div className="w-[90%] max-w-6xl mx-auto px-4">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-3 justify-items-center" >
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center" >
                         <div className="w-full shadow px-5 pt-10 pb-8 border border-gray-300 rounded-lg">
                             <p className="text-sm text-gray-600 italic pb-5">
                                 "Having the patient's full vitals history in one place, with trend indicators,

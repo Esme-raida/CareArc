@@ -54,7 +54,7 @@ export default function PateintDetail() {
     return (
         <>
             {isAppointmentFormOpen && (
-                <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm z-10">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
                     <AppointmentForm
                         setAppointmentsList={setAppointmentsList}
                         setIsFormOpen={setIsAppointmentFormOpen}
@@ -63,7 +63,7 @@ export default function PateintDetail() {
                 </div>
             )}
             {isNoteFormOpen && (
-                <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm z-10">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
                     <AddNoteForm
                         setNotesArray={setNotesArray}
                         setIsNoteFormOpen={setIsNoteFormOpen}
@@ -72,7 +72,7 @@ export default function PateintDetail() {
                 </div>
             )}
             {isVitalFormOpen && (
-                <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm z-10 ">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
                     <RecordVitalsForm
                         setVitalsArray={setVitalsArray}
                         setIsVitalFormOpen={setIsVitalFormOpen}
@@ -84,19 +84,19 @@ export default function PateintDetail() {
                 <div className=" flex flex-col mb-5">
                     {/*Basic Patient Information*/}
                     <div className="flex flex-col my-5">
-                        <div className="flex flex-row gap-3">
-                            <h2 className="font-bold text-2xl">{patientCompleteDetail.name}</h2>
-                        </div>
                         <BasicPatientInfo
+                            name={patientCompleteDetail.name}
                             age={patientCompleteDetail.age}
                             id={patientCompleteDetail.id}
                             gender={patientCompleteDetail.gender}
+                            weight={patientCompleteDetail.weight || "N/A"}
+                            room={patientCompleteDetail.room}
                             condition={patientCompleteDetail.condition}
                             admitted={patientCompleteDetail.admitted}
                         />
                     </div>
                     {/*Quick Action Cards*/}
-                    <div className="grid lg:grid-cols-4 sm:grid-cols-1 gap-3">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                         <button onClick={() => { setIsVitalFormOpen(true) }}>
                             <PersonalizedQuickActions
                                 icon={DocumentPlusIcon}
@@ -129,7 +129,7 @@ export default function PateintDetail() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
 
                     {/*Heart Rate*/}
                     <PatientsVitalsCard
@@ -182,7 +182,7 @@ export default function PateintDetail() {
                 </div>
 
                 {/*Action Cards*/}
-                <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <ActionCards
                         action="View History"
                         actionInfo="Access past vital signs records" />
@@ -194,7 +194,7 @@ export default function PateintDetail() {
                 </div>
 
                 {/*NAV LINKS*/}
-                <nav className="bg-gray-200 flex flex-row w-80 gap-2 px-2 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
+                <nav className="bg-gray-200 flex flex-row flex-wrap sm:flex-nowrap w-full max-w-sm gap-2 px-2 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
                     <IndividualNavLink to="appointments" name="Appointments" />
                     <IndividualNavLink to="notes" name="Notes" patientNotes={patientNotes} />
                     <IndividualNavLink to="timeline" name="Timeline" />
