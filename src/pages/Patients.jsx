@@ -65,13 +65,13 @@ export default function Patients() {
                 <header className="pt-6">
                     <div className="flex items-center gap-1.5 text-2xl font-bold">
                         <UserGroupIcon className="h-8 w-8 text-blue-500" />
-                        <h1>Patient Directory</h1>
+                        <h1>Patients Directory</h1>
                     </div>
-                    <p className="text-gray-500 text-sm">Manage and monitor patient records and basic information</p>
+                    <p className="text-gray-500 text-sm">Manage patient records and clinical information</p>
                 </header>
                 <Link to="/dashboard/patients/addpatientpage" className="self-end sm:self-auto">
                     <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-sm font-semibold">
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold">
                         + Add Patient
                     </button>
                 </Link>

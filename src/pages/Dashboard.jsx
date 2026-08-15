@@ -117,12 +117,12 @@ export default function Dashboard() {
 
             {/* Quick Actions */}
             <h2 className="font-semibold text-lg mt-6 mb-3">Quick Actions</h2>
-            <div className="flex flex-row flex-wrap gap-4 mb-8">
-                <Link to={'/dashboard/patients/addpatientpage'} className="flex-1 min-w-[140px] max-w-[200px]">
+            <div className="flex flex-col sm:flex-row pb-10 gap-4 mb-8">
+                <Link to={'/dashboard/patients/addpatientpage'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
                     <DashboardQuickActions quickActionTitle="Add Patient" icon={UserPlusIcon} />
                 </Link>
-                <Link to={'/dashboard/appointments'} className="flex-1 min-w-[140px] max-w-[200px]">
-                    <DashboardQuickActions quickActionTitle="New Appointment" icon={PlusIcon} />
+                <Link to={'/dashboard/appointments'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
+                    <DashboardQuickActions quickActionTitle="Appointment" icon={PlusIcon} />
                 </Link>
                 {/* Future actions like Generate Report or Configure Alerts can be added later */}
             </div>

@@ -51,7 +51,7 @@ function App() {
 
           {/*Settings Page with nested routes */}
           <Route path="settings" element={<Settings />}>
-            <Route index element={<Navigate to="profile" replace />} />
+            <Route index element={<Profile />} />
             <Route path="profile" element={<Profile />} />
             <Route path="system" element={<System />} />
             <Route path="notifications" element={<Notifications />} />

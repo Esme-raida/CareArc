@@ -53,24 +53,24 @@ export default function Appointments({ }) {
                         </div>
                         <p className="text-gray-500 text-sm">Manage your schedule</p>
                     </header>
-                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                    <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mt-2 sm:mt-0 self-end sm:self-auto">
                         {resetAppointments && (
                             <button
                                 onClick={resetAppointments}
                                 title="Reset & sync seed data with Patient Directory"
-                                className="bg-gray-200 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-300 transition-all text-xs font-semibold"
+                                className="bg-gray-200 border border-gray-300 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-300 transition-all text-xs sm:text-sm font-semibold"
                             >
                                 🔄 Sync Directory Data
                             </button>
                         )}
                         <button
                             onClick={() => { setIsFormOpen(true) }}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-sm font-semibold">
+                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold">
                             + Schedule Visit
                         </button>
                     </div>
                 </div>
-                
+
                 <div className="flex flex-col lg:flex-row items-start gap-5 w-full bg-gray-100 pb-8">
                     <section className="flex flex-col border border-gray-200 shadow-sm rounded-xl w-full px-6 py-8 bg-white">
                         <span className="text-xl md:text-2xl font-semibold flex flex-row gap-2 items-center mb-4 border-b border-gray-100 pb-2">
