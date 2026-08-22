@@ -28,10 +28,11 @@ export const getStatus = (latestVitals, thresholds) => {
     return "Stable";
 }
 
-export const getStatusDotStyles = (status) => {
-    if (status === "Critical") return "bg-red-500";
-    if (status === "Warning") return "bg-yellow-500";
-    if (status === "Stable") return "bg-green-500";
-    if (status === "No Data") return "bg-gray-400";
-    return "bg-gray-400";
-}
+export const statusDotStyles = {
+    Review: "bg-red-500",
+    Watch: "bg-amber-500",
+    Improving: "bg-emerald-500",
+    Stable: "bg-blue-500",
+    "No Data": "bg-gray-300"
+};
+

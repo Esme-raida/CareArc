@@ -6,7 +6,8 @@ import { useState } from "react";
 import usePatients from "../hooks/usePatients";
 import useVitals from "../hooks/useVitals";
 import useThresholds from "../hooks/useThreshold.jsx";
-import { getStatus, getStatusDotStyles } from "../utils/getStatus.js";
+import { computeDeltas, derivePatientStatus } from "../utils/deltaEngine.js";
+import { statusDotStyles } from "../utils/getStatus.js";
 
 export default function Patients() {
     const { patientsArray, deletePatient, resetPatients } = usePatients();
@@ -30,14 +31,17 @@ export default function Patients() {
             new Date(current.timestamp) > new Date(latest.timestamp) ? current : latest
         ) : null;
 
-        const statusA = getStatus(latestVitalA, thresholds);
-        const statusB = getStatus(latestVitalB, thresholds);
+        const deltasA = computeDeltas(vitalsA);
+        const deltasB = computeDeltas(vitalsB);
+
+        const statusA = derivePatientStatus(deltasA, latestVitalA);
+        const statusB = derivePatientStatus(deltasB, latestVitalB);
 
         function sortingfunction(status) {
-            if (status === "Critical") return 3;
-            if (status === "Warning") return 2;
-            if (status === "Stable") return 1;
-            if (status === "No Data") return 0;
+            if (status === "Review") return 3;
+            if (status === "Watch") return 2;
+            if (status === "Improving") return 1;
+            if (status === "Stable") return 0;
             return 0;
         }
 
@@ -113,8 +117,9 @@ export default function Patients() {
                                 const latestVitals = patientVitals.length > 0 ? patientVitals.reduce((latest, current) =>
                                     new Date(current.timestamp) > new Date(latest.timestamp) ? current : latest
                                 ) : null;
+                                const deltas = computeDeltas(patientVitals);
                                 latestVitalTime = latestVitals ? latestVitals.timestamp.split("T")[1].slice(0, 5) : null;
-                                const patientStatus = getStatus(latestVitals, thresholds);
+                                const patientStatus = derivePatientStatus(deltas, latestVitals);
 
                                 return (
                                     <tr key={patient.id} className="border-b border-b-gray-100 hover:bg-gray-50 transition-colors">
@@ -129,8 +134,8 @@ export default function Patients() {
                                             } else if (column.key === "status") {
                                                 cellContent = (
                                                     <span className="inline-flex justify-center items-center gap-2 font-medium">
-                                                        <span className={`h-2 w-2 rounded-full ${getStatusDotStyles(patientStatus)}`}></span>
-                                                        <span className="text-gray-700 text-xs">{patientStatus}</span>
+                                                        <span className={`h-2 w-2 rounded-full ${statusDotStyles[patientStatus] || 'bg-gray-300'}`}></span>
+                                                        <span className="text-gray-700 text-xs font-medium">{patientStatus}</span>
                                                     </span>
                                                 );
                                             } else {

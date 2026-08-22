@@ -1,4 +1,4 @@
-import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon } from "lucide-react";
+import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon, Wind } from "lucide-react";
 import { DocumentPlusIcon, DocumentIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import { Outlet, useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ import AddNoteForm from "../components/AddNoteForm.jsx";
 import AppointmentForm from "../components/AppointmentForm.jsx";
 import RecordVitalsForm from "../components/RecordVitalsForm.jsx";
 import PatientTimeline from "./PatientTimeline.jsx";
+import { computeDeltas } from "../utils/deltaEngine.js";
 
 export default function PateintDetail() {
 
@@ -50,6 +51,8 @@ export default function PateintDetail() {
                 ? current : latest)
         : null;
 
+
+    const deltas = computeDeltas(patientVitals);
 
     return (
         <>
@@ -140,7 +143,7 @@ export default function PateintDetail() {
                         vital="heartRate"
                         vitalRate={latestVital?.heartRate}
                         unit="BPM"
-
+                        delta={deltas && (deltas.find(delta => delta.vital === "heartRate"))}
                     />
 
                     {/*Blood Pressure*/}
@@ -155,6 +158,7 @@ export default function PateintDetail() {
                              ${latestVital.bloodPressure.diastolic}`
                             : "--"}
                         unit="mmHg"
+                        delta={deltas && (deltas.find(delta => delta.vital === "bloodPressure"))}
                     />
 
                     {/*Temperature*/}
@@ -166,6 +170,7 @@ export default function PateintDetail() {
                         vital="temperature"
                         vitalRate={latestVital?.temperature}
                         unit="°C"
+                        delta={deltas && (deltas.find(delta => delta.vital === "temperature"))}
                     />
 
                     {/*Blood Oxygen*/}
@@ -177,6 +182,7 @@ export default function PateintDetail() {
                         vital="oxygen"
                         vitalRate={latestVital?.oxygen}
                         unit="%"
+                        delta={deltas && (deltas.find(delta => delta.vital === "oxygen"))}
                     />
 
                 </div>

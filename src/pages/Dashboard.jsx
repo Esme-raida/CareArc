@@ -8,7 +8,7 @@ import useAppointments from "../hooks/useAppointments";
 import usePatients from "../hooks/usePatients";
 import useVitals from "../hooks/useVitals";
 import useThresholds from "../hooks/useThreshold.jsx";
-import { getStatus } from "../utils/getStatus.js";
+import { computeDeltas, derivePatientStatus } from "../utils/deltaEngine.js";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
@@ -30,14 +30,15 @@ export default function Dashboard() {
             new Date(current.timestamp) > new Date(latest.timestamp) ? current : latest
         );
 
-        //Get the health status of the patient 
-        const healthStatus = getStatus(latestVital, thresholds);
+        // Calculate health triage status using Delta Engine
+        const deltas = computeDeltas(patientVitals);
+        const healthStatus = derivePatientStatus(deltas, latestVital);
 
-        if (healthStatus === "Critical" || healthStatus === "Warning") {
+        if (healthStatus === "Review" || healthStatus === "Watch") {
             return true;
         }
-
     });
+
     const today = new Date();
 
     // Filter today's appointments
