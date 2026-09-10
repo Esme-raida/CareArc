@@ -15,6 +15,7 @@ from app.models.patient import Patient
 from app.models.vital import Vital
 from app.schemas.patient import PatientCreate, PatientResponse, PatientUpdate
 from app.schemas.vital import VitalResponse
+from app.services import delta_engine_service
 
 
 async def get_patients(
@@ -46,20 +47,27 @@ async def get_patients(
     result = await db.execute(query)
     patients = result.scalars().all()
 
-    # Transform ORM models to PatientResponse DTOs including latestVital
+    # Transform ORM models to PatientResponse DTOs including latestVital and derived status
     patient_responses: List[PatientResponse] = []
     for patient in patients:
         latest_vital_dto = None
+        derived_status = "No Data"
         if patient.vitals:
-            # Vitals are ordered chronologically; last element is latest
             latest_vital_orm = patient.vitals[-1]
             latest_vital_dto = VitalResponse.model_validate(latest_vital_orm)
+            deltas = delta_engine_service.compute_deltas(patient.vitals)
+            derived_status = delta_engine_service.derive_patient_status(
+                deltas=deltas,
+                latest_vitals=latest_vital_orm,
+            )
 
         resp = PatientResponse.model_validate(patient)
         resp.latest_vital = latest_vital_dto
+        resp.status = derived_status
         patient_responses.append(resp)
 
     return patient_responses
+
 
 
 async def get_patient_by_id(db: AsyncSession, patient_id: str) -> Patient:
