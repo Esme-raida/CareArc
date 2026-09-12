@@ -24,7 +24,7 @@ export default function HomePage() {
                         <h1 className="text-xl font-bold leading-tight text-gray-900 tracking-tight">
                             CareArc
                         </h1>
-                        <span className="text-gray-400 text-[10px] md:text-xs">Patient Intelligence System</span>
+                        <span className="text-gray-600 text-sm">Patient Intelligence System</span>
                     </div>
                 </div>
                 <Link to="/dashboard">

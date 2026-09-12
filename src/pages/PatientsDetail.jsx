@@ -17,6 +17,8 @@ import AppointmentForm from "../components/AppointmentForm.jsx";
 import RecordVitalsForm from "../components/RecordVitalsForm.jsx";
 import PatientTimeline from "./PatientTimeline.jsx";
 import { computeDeltas } from "../utils/deltaEngine.js";
+import AISummaryModal from "../components/AISummaryModal.jsx";
+
 
 export default function PateintDetail() {
 
@@ -53,6 +55,16 @@ export default function PateintDetail() {
 
 
     const deltas = computeDeltas(patientVitals);
+
+    const handleAISummaryClick = () => {
+        alert("AI Summary clicked!");
+    };
+
+
+    const handleViewHistoryClick = () => {
+        alert("View History clicked!");
+    };
+
 
     return (
         <>
@@ -99,7 +111,7 @@ export default function PateintDetail() {
                         />
                     </div>
                     {/*Quick Action Cards*/}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                         <button onClick={() => { setIsVitalFormOpen(true) }}>
                             <PersonalizedQuickActions
                                 icon={DocumentPlusIcon}
@@ -132,7 +144,7 @@ export default function PateintDetail() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
 
                     {/*Heart Rate*/}
                     <PatientsVitalsCard
@@ -191,20 +203,31 @@ export default function PateintDetail() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <ActionCards
                         action="View History"
-                        actionInfo="Access past vital signs records" />
+                        actionInfo="Access past vital signs records"
+                        onClick={handleViewHistoryClick}
+                    />
 
                     {/*AI Health Summary Card*/}
                     <ActionCards
                         action="AI Health Summary"
-                        actionInfo="Get AI-powered insights and trends from patient data" />
+                        actionInfo="Get AI-powered insights and trends from patient data"
+                        onClick={handleAISummaryClick}
+                    />
                 </div>
 
                 {/*NAV LINKS*/}
-                <nav className="bg-gray-200 flex flex-row flex-wrap sm:flex-nowrap w-full max-w-sm gap-2 px-2 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
+                <nav className="bg-blue-100 flex flex-row sm:flex-nowrap w-full max-w-sm px-1 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
                     <IndividualNavLink to="appointments" name="Appointments" />
                     <IndividualNavLink to="notes" name="Notes" patientNotes={patientNotes} />
-                    <IndividualNavLink to="timeline" name="Timeline" />
+                    <IndividualNavLink to="timeline" name="History" />
                 </nav>
+                {/* <AISummaryModal
+                    isOpen={isAIModalOpen}
+                    onClose={() => setIsAIModalOpen(false)}
+                    patient={patient}
+                    vitalsArray={patientVitals}
+                    notesArray={patientNotes}
+                /> */}
 
                 <div >
                     <PatientDetailContext.Provider value={{ patient, latestVital, patientNotes, patientVitals, setNotesArray, appointmentsList, setAppointmentsList }} >
@@ -215,6 +238,5 @@ export default function PateintDetail() {
 
             </main>
         </>
-
     )
 }

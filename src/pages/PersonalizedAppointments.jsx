@@ -19,11 +19,15 @@ export default function PersonalizedAppointments() {
     };
 
     //FILTERING APPOINTMENTS 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayLocalString = `${year}-${month}-${day}`;
+
     //Today's appointments
     const todayAppointments = patientAppointments.filter((newAppointment) => {
-        const today = new Date();
-        const appointmentDate = new Date(newAppointment.date);
-        return appointmentDate.toDateString() === today.toDateString();
+        return newAppointment.date === todayLocalString;
     });
 
     //Future Appointments using getAppointmentStatus

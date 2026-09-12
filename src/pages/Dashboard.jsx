@@ -40,11 +40,14 @@ export default function Dashboard() {
     });
 
     const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayLocalString = `${year}-${month}-${day}`;
 
     // Filter today's appointments
     const todayAppointments = appointmentsList.filter((appointment) => {
-        const appointmentDate = new Date(appointment.date);
-        return appointmentDate.toDateString() === today.toDateString();
+        return appointment.date === todayLocalString;
     });
 
     // Pending appointments (today)

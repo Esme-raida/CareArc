@@ -103,7 +103,7 @@ export default function PersonalizedOverview() {
             </div>
 
             {/*Vitals Trajectory Chart Card*/}
-            <div className="border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white flex flex-col gap-4">
+            <div className="flex flex-col border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white flex flex-col gap-4">
                 <h3 className="font-semibold text-gray-800 text-lg">Vitals Trajectory Trends</h3>
                 {chartData.length < 2 ? (
                     <p className="text-sm text-gray-400 py-8 text-center">Need at least 2 vital readings to display trajectory</p>
@@ -112,11 +112,10 @@ export default function PersonalizedOverview() {
                         <div className="flex flex-wrap gap-2 border-b border-gray-100 pb-3">
                             {Object.entries(vitalChartConfig).map(([key, config]) => (
                                 <button key={key} type="button" onClick={() => { setActiveVital(key) }}
-                                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-all duration-200 ${
-                                        activeVital === key 
-                                            ? "bg-gray-900 text-white shadow-sm" 
-                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                    }`}>
+                                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-all duration-200 ${activeVital === key
+                                        ? "bg-gray-900 text-white shadow-sm"
+                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                        }`}>
                                     {config.label}
                                 </button>
                             ))}
@@ -127,24 +126,24 @@ export default function PersonalizedOverview() {
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                                     <XAxis dataKey="formattedTime" tick={{ fontSize: 12, fill: '#9ca3af' }} tickLine={false} axisLine={{ stroke: '#e5e7eb' }} />
                                     <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12, fill: '#9ca3af' }} tickLine={false} axisLine={false} />
-                                    <Tooltip 
-                                        contentStyle={{ 
-                                            backgroundColor: '#1f2937', 
-                                            border: 'none', 
-                                            borderRadius: '12px', 
+                                    <Tooltip
+                                        contentStyle={{
+                                            backgroundColor: '#1f2937',
+                                            border: 'none',
+                                            borderRadius: '12px',
                                             color: '#fff',
                                             fontSize: '13px',
                                             boxShadow: '0 10px 25px rgba(0,0,0,0.15)'
-                                        }} 
+                                        }}
                                         itemStyle={{ color: '#fff' }}
                                         labelStyle={{ color: '#9ca3af', fontSize: '11px', marginBottom: '4px' }}
                                     />
-                                    <Line 
-                                        type="monotone" 
-                                        dataKey={activeVital} 
-                                        stroke={currentConfig.color} 
-                                        strokeWidth={2.5} 
-                                        dot={{ r: 4, fill: currentConfig.color, strokeWidth: 2, stroke: '#fff' }} 
+                                    <Line
+                                        type="monotone"
+                                        dataKey={activeVital}
+                                        stroke={currentConfig.color}
+                                        strokeWidth={2.5}
+                                        dot={{ r: 4, fill: currentConfig.color, strokeWidth: 2, stroke: '#fff' }}
                                         activeDot={{ r: 6, fill: currentConfig.color, strokeWidth: 2, stroke: '#fff' }}
                                     />
                                 </LineChart>

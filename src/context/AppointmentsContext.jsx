@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect } from "react";
 import { appointmentsData } from "../data/appointmentData.js";
+// import { appointmentsApi } from "../services/api.js";
 
-const VALID_NAMES = ["Amina Yusuf", "John Okafor", "Mary Adebayo", "Bello Kasim", "Chidinma Eze"];
 
 const getInitialAppointments = () => {
     // Clean up old legacy keys to prevent stale cache loading
-    const storageKey = "carearc_appointments_v4";
+    const storageKey = "carearc_appointments";
     const stored = localStorage.getItem(storageKey);
 
     if (stored) {
@@ -13,9 +13,9 @@ const getInitialAppointments = () => {
             const parsed = JSON.parse(stored);
             // Verify that parsed contains valid patients and no legacy dummy names
             if (
-                Array.isArray(parsed) &&
+                Array.isArray(parsed) && // returns true or false if the item is an array or not
                 parsed.length > 0 &&
-                parsed.every((item) => item.patientId && VALID_NAMES.includes(item.name))
+                parsed.every((item) => item.patientId && item.name)
             ) {
                 return parsed;
             }

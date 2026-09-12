@@ -22,7 +22,7 @@ function Sidebar({ onClose }) {
                             <h1 className="text-xl font-bold text-gray-900">
                                 CareArc
                             </h1>
-                            <span className="text-gray-400 text-xs">Clinical Intelligence</span>
+                            <span className="text-gray-600 text-xs">Clinical Intelligence</span>
                         </div>
                     </div>
                     {onClose && (

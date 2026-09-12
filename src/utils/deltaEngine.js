@@ -166,7 +166,7 @@ export function generateLatestUpdate(deltas, latestNote) {
         return "No significant changes to report"
     }
     else
-        return summaryParts.join(" . ");
+        return summaryParts.join("   ● ");
 
 
 }

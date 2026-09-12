@@ -14,11 +14,14 @@ export default function Appointments({ }) {
     // State to check if the form/dropdown is open or closed
     const [isFormOpen, setIsFormOpen] = useState(false);
 
-    const todayAppointments = appointmentsList.filter((newAppointment) => {
-        const today = new Date();
-        const appointmentDate = new Date(newAppointment.date);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayLocalString = `${year}-${month}-${day}`;
 
-        return appointmentDate.toDateString() === today.toDateString();
+    const todayAppointments = appointmentsList.filter((newAppointment) => {
+        return newAppointment.date === todayLocalString;
     });
 
     const upcomingAppointments = appointmentsList.filter(newAppointment => getAppointmentStatus(newAppointment) === "scheduled");
