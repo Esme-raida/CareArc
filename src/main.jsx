@@ -7,6 +7,8 @@ import PatientsProvider from './context/PatientsContext.jsx';
 import VitalsProvider from './context/VitalsContext.jsx';
 import NotesProvider from './context/NotesContext.jsx';
 import AppointmentsProvider from './context/AppointmentsContext.jsx';
+import AuthProvider from './context/AuthContext.jsx';
+import FilesProvider from './context/FilesContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +17,11 @@ createRoot(document.getElementById('root')).render(
         <PatientsProvider>
           <VitalsProvider>
             <NotesProvider>
-              <App />
+              <FilesProvider>
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
+              </FilesProvider>
             </NotesProvider>
           </VitalsProvider>
         </PatientsProvider>

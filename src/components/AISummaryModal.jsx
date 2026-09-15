@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { X, Sparkles, Copy, Printer, Check } from "lucide-react";
 import { fetchClinicalSummary } from "../services/aiServices";
 
-export default function AISummaryModal({ patient, vitalsArray, notesArray, isOpen, onClose }) {
+export default function AISummaryModal({ patient, vitalsArray, notesArray, setIsAIModalOpen, onClose }) {
 
     const [loading, setLoading] = useState(true); //sets the modal to show the loading animation while the AI  
     const [summaryData, setSummaryData] = useState(null); //starts as null and holds the SBAR Object once fetchClinicalSummary finishes
@@ -34,7 +34,7 @@ export default function AISummaryModal({ patient, vitalsArray, notesArray, isOpe
 
         const formattedSBAR = `
         SBAR CLINICAL SUMMARY - ${patient.name}\n
-        Risk Level: ${summaryData.sbar.riskLevel}\n 
+        Risk Level: ${summaryData.riskLevel}\n 
 
         SITUATION: ${summaryData.sbar.situation}\n
         BACKGROUND: ${summaryData.sbar.background}\n
@@ -65,7 +65,7 @@ export default function AISummaryModal({ patient, vitalsArray, notesArray, isOpe
                             <span className="text-slate-400 text-xs">CareArc Intelligence Engine • SBAR Handover</span>
                         </div>
                     </div>
-                    <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+                    <button onClick={() => setIsAIModalOpen(false)} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -118,7 +118,7 @@ export default function AISummaryModal({ patient, vitalsArray, notesArray, isOpe
 
                                 {/*SBAR Situation*/}
                                 <div className="p-3.5 bg-blue-50/60 border border-blue-100 rounded-xl">
-                                    <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">B — Backgroundn</span>
+                                    <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">B — Background</span>
                                     <p className="text-sm text-slate-700 mt-1 leading-relaxed">{summaryData.sbar.background}</p>
                                 </div>
 
@@ -139,7 +139,7 @@ export default function AISummaryModal({ patient, vitalsArray, notesArray, isOpe
                     ) : null}
                 </div>
                 <div className="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-between items-center">
-                    <button onClick={onClose} className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition cursor-pointer">
+                    <button onClick={() => setIsAIModalOpen(false)} className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition cursor-pointer">
                         Close
                     </button>
                     <div className="flex gap-2">

@@ -1,27 +1,27 @@
-import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon, Wind } from "lucide-react";
+import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon, Sparkles } from "lucide-react";
 import { DocumentPlusIcon, DocumentIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
 import usePatients from "../hooks/usePatients.jsx";
 import useVitals from "../hooks/useVitals.jsx";
 import useNotes from "../hooks/useNotes.jsx";
 import useAppointments from "../hooks/useAppointments.jsx";
 import BasicPatientInfo from "../components/BasicPatientInfo";
 import PatientsVitalsCard from "../components/PatientsVitalsCard";
-import ActionCards from "../components/ActionCards";
 import IndividualNavLink from "../components/IndividualNavLink";
 import { PatientDetailContext } from "../context/PatientsDetailContext";
 import PersonalizedQuickActions from "../components/PersonalizedQuickActions.jsx";
 import AddNoteForm from "../components/AddNoteForm.jsx";
 import AppointmentForm from "../components/AppointmentForm.jsx";
 import RecordVitalsForm from "../components/RecordVitalsForm.jsx";
-import PatientTimeline from "./PatientTimeline.jsx";
 import { computeDeltas } from "../utils/deltaEngine.js";
+import FileUploadModal from "../components/FileUploadModal.jsx";
 import AISummaryModal from "../components/AISummaryModal.jsx";
 
 
 export default function PateintDetail() {
 
+    const navigate = useNavigate();
     const { patientsArray } = usePatients();
     const { vitalsArray, setVitalsArray } = useVitals();
     const { notesArray, setNotesArray } = useNotes();
@@ -29,6 +29,8 @@ export default function PateintDetail() {
     const [isNoteFormOpen, setIsNoteFormOpen] = useState(false);
     const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
     const [isVitalFormOpen, setIsVitalFormOpen] = useState(false);
+    const [isFileModalOpen, setIsFileModalOpen] = useState(false);
+    const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
 
     // useParams is how a page reads info from the URL
@@ -55,15 +57,6 @@ export default function PateintDetail() {
 
 
     const deltas = computeDeltas(patientVitals);
-
-    const handleAISummaryClick = () => {
-        alert("AI Summary clicked!");
-    };
-
-
-    const handleViewHistoryClick = () => {
-        alert("View History clicked!");
-    };
 
 
     return (
@@ -95,6 +88,23 @@ export default function PateintDetail() {
                     />
                 </div>
             )}
+            {isFileModalOpen && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+                    <FileUploadModal
+                        setIsFileModalOpen={setIsFileModalOpen}
+                        patientId={patientsId}
+                    />
+                </div>
+            )}
+            {isAIModalOpen && (
+                <AISummaryModal
+                    setIsAIModalOpen={setIsAIModalOpen}
+                    patient={patientCompleteDetail}
+                    vitalsArray={patientVitals}
+                    notesArray={patientNotes}
+                />
+            )}
+
             <main className="p-5">
                 <div className=" flex flex-col mb-5">
                     {/*Basic Patient Information*/}
@@ -135,10 +145,10 @@ export default function PateintDetail() {
                         </button>
 
 
-                        <button>
+                        <button onClick={() => { setIsFileModalOpen(true) }}>
                             <PersonalizedQuickActions
                                 icon={DocumentTextIcon}
-                                quickActionTitle="Generate Report" />
+                                quickActionTitle="+ Upload file/Lab/Report" />
                         </button>
 
                     </div>
@@ -199,38 +209,17 @@ export default function PateintDetail() {
 
                 </div>
 
-                {/*Action Cards*/}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <ActionCards
-                        action="View History"
-                        actionInfo="Access past vital signs records"
-                        onClick={handleViewHistoryClick}
-                    />
-
-                    {/*AI Health Summary Card*/}
-                    <ActionCards
-                        action="AI Health Summary"
-                        actionInfo="Get AI-powered insights and trends from patient data"
-                        onClick={handleAISummaryClick}
-                    />
-                </div>
-
                 {/*NAV LINKS*/}
-                <nav className="bg-blue-100 flex flex-row sm:flex-nowrap w-full max-w-sm px-1 py-2 mb-7 font-semibold text-gray-500 rounded-xl">
+                <nav className="bg-blue-100 flex flex-row flex-wrap sm:flex-nowrap w-full px-1 py-2 mb-7 pl-4 font-semibold text-gray-500 rounded-xl gap-1">
+                    <IndividualNavLink to="overview" name="Overview" />
                     <IndividualNavLink to="appointments" name="Appointments" />
                     <IndividualNavLink to="notes" name="Notes" patientNotes={patientNotes} />
+                    <IndividualNavLink to="files" name="Files & Labs" />
                     <IndividualNavLink to="timeline" name="History" />
                 </nav>
-                {/* <AISummaryModal
-                    isOpen={isAIModalOpen}
-                    onClose={() => setIsAIModalOpen(false)}
-                    patient={patient}
-                    vitalsArray={patientVitals}
-                    notesArray={patientNotes}
-                /> */}
 
                 <div >
-                    <PatientDetailContext.Provider value={{ patient, latestVital, patientNotes, patientVitals, setNotesArray, appointmentsList, setAppointmentsList }} >
+                    <PatientDetailContext.Provider value={{ patient, latestVital, patientNotes, patientVitals, setNotesArray, appointmentsList, setAppointmentsList, setIsAIModalOpen }} >
                         {/*So everything in here can now access the data*/}
                         <Outlet />
                     </PatientDetailContext.Provider>

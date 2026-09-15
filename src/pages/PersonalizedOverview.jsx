@@ -2,11 +2,19 @@ import { useContext, useState } from "react";
 import { PatientDetailContext } from "../context/PatientsDetailContext";
 import { computeDeltas, derivePatientStatus, generateLatestUpdate } from "../utils/deltaEngine";
 import { ResponsiveContainer, Line, LineChart, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { Sparkles } from "lucide-react";
+
 
 
 export default function PersonalizedOverview() {
 
-    //Declaring the active vitals tstate and color 
+    //Grabbing the patient data and modal controller from context....
+    const { latestVital, patientVitals, patientNotes, setIsAIModalOpen } = useContext(PatientDetailContext);
+
+    const handleAISummaryClick = () => {
+        setIsAIModalOpen(true);
+    };
+    //Declaring the active vitals state and color 
     const [activeVital, setActiveVital] = useState("heartRate");
     const vitalChartConfig = {
         heartRate: { label: "Heart Rate", color: "#ef4444", unit: "bpm" },
@@ -17,8 +25,6 @@ export default function PersonalizedOverview() {
     };
 
     const currentConfig = vitalChartConfig[activeVital] || vitalChartConfig.heartRate
-    //Grabbing the patient data from context... 
-    const { latestVital, patientVitals, patientNotes } = useContext(PatientDetailContext);
     let lastRecorded = "";
 
     //Computing deltas for vital
@@ -77,7 +83,37 @@ export default function PersonalizedOverview() {
         })) : [];
 
     return (
+
         <div className="flex flex-col gap-5">
+
+
+            {/* CareArc Clinical Intelligence Banner */}
+            <div
+                onClick={handleAISummaryClick}
+                className="mb-8 p-4.5 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white rounded-2xl shadow-md flex items-center justify-between hover:shadow-lg hover:scale-[1.005] transition-all cursor-pointer border border-slate-700/50"
+            >
+                <div className="flex items-center gap-3.5">
+                    <div className="p-2.5 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30">
+                        <Sparkles className="w-5 h-5 animate-pulse" />
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <h3 className="font-bold text-sm tracking-wide">AI Clinical Health Summary</h3>
+                            <span className="px-2 py-0.5 text-[10px] font-semibold bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
+                                SBAR Handover
+                            </span>
+                        </div>
+                        <p className="text-xs text-slate-300 mt-0.5">
+                            Generate real-time trajectory synthesis, risk stratification, and handover recommendations.
+                        </p>
+                    </div>
+                </div>
+                <button className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-xs">
+                    View Synthesis
+                </button>
+            </div>
+
+
             {/*Clinical Overview Card*/}
             <div className="flex flex-col gap-4 border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white">
                 <div className="flex items-center justify-between">
@@ -101,6 +137,7 @@ export default function PersonalizedOverview() {
                     )}
                 </div>
             </div>
+
 
             {/*Vitals Trajectory Chart Card*/}
             <div className="flex flex-col border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white flex flex-col gap-4">

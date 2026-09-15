@@ -15,6 +15,7 @@ import PatientsDetail from "./pages/PatientsDetail.jsx";
 import PersonalizedOverview from "./pages/PersonalizedOverview.jsx";
 import PersonalizedAppointments from "./pages/PersonalizedAppointments.jsx";
 import PersonalizedNotes from "./pages/PersonalizedNotes.jsx";
+import PersonalizedFiles from "./pages/PersonalizedFiles.jsx";
 import PatientTimeline from "./pages/PatientTimeline.jsx";
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="appointments" element={<PersonalizedAppointments />} />
             <Route path="notes" element={<PersonalizedNotes />} />
             <Route path="timeline" element={<PatientTimeline />} />
+            <Route path="files" element={<PersonalizedFiles />} />
           </Route>
 
           {/*React router appends /dashboard automatically because it is nested*/}
