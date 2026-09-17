@@ -11,13 +11,13 @@ export default function PersonalizedFiles() {
     const [selectedFileForPreview, setSelectedFileForPreview] = useState(null);
 
     return (
-        <div className="flex flex-col gap-2 border border-gray-200 shadow-sm rounded-xl w-full px-6 py-5 bg-white">
-            <div className="flex items-center justify-between">
-                <header className="flex items-center gap-2.5">
-                    <h1 className="text-lg font-bold text-gray-600">
+        <div className="flex flex-col gap-2 border border-gray-200/60 shadow-sm rounded-2xl w-full p-4 sm:p-6 bg-white">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
+                <header className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                    <h1 className="text-base sm:text-lg font-bold text-gray-800">
                         Medical Files & Diagnostic Reports
                     </h1>
-                    <span className="px-3 py-1 mt-[-1%] text-xs font-medium bg-blue-50 text-slate-700 rounded-full">
+                    <span className="px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/60 rounded-full shrink-0">
                         {patientFiles.length} {patientFiles.length === 1 ? "File" : "Files"}
                     </span>
                 </header>

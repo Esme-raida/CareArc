@@ -1,9 +1,11 @@
 import { useState } from "react";
 import InputComponent from './InputComponent';
+import useAuth from "../hooks/useAuth";
 
 
 export default function RecordVitalsForm({ setIsVitalFormOpen, setVitalsArray, patientId }) {
 
+    const { user } = useAuth();
     const [formData, setFormData] = useState({
         heartRate: "",
         systolic: "",
@@ -31,7 +33,7 @@ export default function RecordVitalsForm({ setIsVitalFormOpen, setVitalsArray, p
             oxygen: Number(formData.oxygen), //converting the string to a number 
             temperature: Number(formData.temperature), //converting the string to a number 
             respiratoryRate: Number(formData.respiratoryRate), //converting the string to a number 
-            recordedBy: formData.recordedBy //the staff or doctor who recorded the vital
+            recordedBy: user?.name || "Clinical Staff" //the staff or doctor who recorded the vital
         }
 
         setVitalsArray(prev => [...prev, newVitals]);
@@ -129,10 +131,8 @@ export default function RecordVitalsForm({ setIsVitalFormOpen, setVitalsArray, p
                         label="Recorded By"
                         placeholder="Nurse Fatima"
                         type="text"
-                        value={formData.recordedBy}
-                        onChange={(e) => {
-                            setFormData({ ...formData, recordedBy: e.target.value });
-                        }}
+                        value={formData.recordedBy || user?.name}
+                        disabled={true} //can't be edited  by the user
                     />
 
 

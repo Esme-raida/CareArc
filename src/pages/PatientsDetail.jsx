@@ -6,6 +6,7 @@ import usePatients from "../hooks/usePatients.jsx";
 import useVitals from "../hooks/useVitals.jsx";
 import useNotes from "../hooks/useNotes.jsx";
 import useAppointments from "../hooks/useAppointments.jsx";
+import useFiles from "../hooks/useFiles.jsx";
 import BasicPatientInfo from "../components/BasicPatientInfo";
 import PatientsVitalsCard from "../components/PatientsVitalsCard";
 import IndividualNavLink from "../components/IndividualNavLink";
@@ -27,6 +28,7 @@ export default function PateintDetail() {
     const { vitalsArray, setVitalsArray } = useVitals();
     const { notesArray, setNotesArray } = useNotes();
     const { appointmentsList, setAppointmentsList } = useAppointments();
+    const { filesArray } = useFiles();
     const [isNoteFormOpen, setIsNoteFormOpen] = useState(false);
     const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
     const [isVitalFormOpen, setIsVitalFormOpen] = useState(false);
@@ -52,6 +54,7 @@ export default function PateintDetail() {
     //.filter returns multiple vitals
     const patientVitals = vitalsArray.filter(vital => vital.patientId === patientsId);
     const patientNotes = notesArray.filter(note => note.patientId === patientsId);
+    const patientFiles = filesArray.filter(file => file.patientId === patientsId);
     const patientCompleteDetail = {
         ...patient,
         vitals: patientVitals,
@@ -114,10 +117,10 @@ export default function PateintDetail() {
                 />
             )}
 
-            <main className="p-5">
-                <div className=" flex flex-col mb-5">
+            <main className="px-3.5 py-4 sm:p-5 max-w-7xl mx-auto">
+                <div className="flex flex-col mb-4 sm:mb-5">
                     {/*Basic Patient Information*/}
-                    <div className="flex flex-col my-5">
+                    <div className="flex flex-col my-3 sm:my-5">
                         <BasicPatientInfo
                             name={patientCompleteDetail.name}
                             age={patientCompleteDetail.age}
@@ -130,7 +133,7 @@ export default function PateintDetail() {
                         />
                     </div>
                     {/*Quick Action Cards*/}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         <button onClick={() => { setIsVitalFormOpen(true) }}
                             className={!canAccessClinicalNotes ? "opacity-70 cursor-not-allowed disabled:pointer-events-none" : ""}
                             title={!canAccessClinicalNotes ? "You do not have access to record patients vitals" : ""}
@@ -172,7 +175,7 @@ export default function PateintDetail() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-10">
 
                     {/*Heart Rate*/}
                     <PatientsVitalsCard
@@ -228,10 +231,10 @@ export default function PateintDetail() {
                 </div>
 
                 {/*NAV LINKS*/}
-                <nav className="bg-blue-100 flex flex-row flex-wrap sm:flex-nowrap w-full px-1 py-2 mb-7 pl-4 font-semibold text-gray-500 rounded-xl gap-1">
+                <nav className="bg-blue-100/70 flex flex-row overflow-x-auto w-full p-1.5 mb-6 sm:mb-7 font-semibold text-gray-500 rounded-xl gap-1.5 shrink-0 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none]">
                     <IndividualNavLink to="overview" name="Overview" />
                     <IndividualNavLink to="appointments" name="Appointments" />
-                    <IndividualNavLink to="notes" name="Notes" patientNotes={patientNotes} />
+                    {canAccessClinicalNotes && <IndividualNavLink to="notes" name="Notes" />}
                     <IndividualNavLink to="files" name="Files & Labs" />
                     <IndividualNavLink to="timeline" name="History" />
                 </nav>

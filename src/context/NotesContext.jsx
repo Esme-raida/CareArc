@@ -5,10 +5,17 @@ import { notesData } from "../data/notesData.js";
 const storedNotes = localStorage.getItem("carearc_notes");
 const storedNotesObj = storedNotes ? JSON.parse(storedNotes) : null;
 
+const getInitialNotes = () => {
+    if (!storedNotesObj || !Array.isArray(storedNotesObj)) return notesData;
+    const existingIds = new Set(storedNotesObj.map(n => n.id));
+    const missing = notesData.filter(n => !existingIds.has(n.id));
+    return [...storedNotesObj, ...missing];
+};
+
 export const NotesContext = createContext();
 
 export default function NotesProvider({ children }) {
-    const [notesArray, setNotesArray] = useState(storedNotesObj ? storedNotesObj : notesData);
+    const [notesArray, setNotesArray] = useState(getInitialNotes);
 
     useEffect(() => {
         //store item/notes in localStorage

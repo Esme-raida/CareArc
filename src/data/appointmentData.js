@@ -115,4 +115,40 @@ export const appointmentsData = [
     isCompleted: false,
     date: formatDate(tomorrow),
   },
+
+  // PT-006: David Adeleke (Outpatient)
+  {
+    id: 11,
+    patientId: "PT-006",
+    name: "David Adeleke",
+    type: "Check-up",
+    time: "11:30",
+    duration: 30,
+    isCompleted: false,
+    date: formatDate(today),
+  },
+
+  // PT-007: Fatima Abubakar (Outpatient)
+  {
+    id: 12,
+    patientId: "PT-007",
+    name: "Fatima Abubakar",
+    type: "Consultation",
+    time: "13:00",
+    duration: 45,
+    isCompleted: false,
+    date: formatDate(tomorrow),
+  },
+
+  // PT-008: Oluwaseun Bakare (Outpatient)
+  {
+    id: 13,
+    patientId: "PT-008",
+    name: "Oluwaseun Bakare",
+    type: "Follow-up",
+    time: "14:30",
+    duration: 30,
+    isCompleted: false,
+    date: formatDate(nextWeek),
+  },
 ];

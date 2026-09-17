@@ -20,12 +20,18 @@ export default function Thresholds() {
 
         <section className="min-w-0">
             {/* Vital Signs Threshold */}
-            <div className="flex flex-col border border-gray-200 shadow-sm rounded-xl w-full px-6 pt-8 pb-32 bg-white">
-                <header className="flex flex-row gap-1">
-                    <ActivityIcon className="h-7 w-7 p-1" />
-                    <h2 className="font-semibold text-2xl">Vital Signs Normal Ranges</h2>
+            <div className="flex flex-col border border-gray-200/60 shadow-sm rounded-2xl w-full p-4 sm:p-6 md:p-8 pb-24 sm:pb-32 bg-white">
+                <header className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                    <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 shrink-0 shadow-2xs">
+                        <ActivityIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="font-bold text-lg sm:text-xl text-gray-900 tracking-tight">
+                            Vital Signs Normal Ranges
+                        </h2>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-0.5">Set baseline clinical reference ranges for telemetry and alerting thresholds</p>
+                    </div>
                 </header>
-                <span className="mb-8 text-gray-500">Set baseline clinical reference ranges for patient monitoring</span>
 
                 <div className="flex flex-col gap-6">
                     {/*Heart Rate*/}

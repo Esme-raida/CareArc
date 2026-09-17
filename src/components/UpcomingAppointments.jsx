@@ -1,21 +1,23 @@
-import { UserIcon } from "lucide-react"
+import { UserIcon, Clock } from "lucide-react";
 
-export default function IndividualupcomingAppointment ( { name, type, timing, } ) {
+export default function IndividualupcomingAppointment({ name, type, timing }) {
     return (
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-gray-300 rounded-xl p-4 sm:p-5 gap-3 bg-white w-full">
-            <div className="flex flex-row gap-3 items-center">
-                <UserIcon className="rounded-full bg-gray-200 text-gray-500 p-2 h-10 w-10 shrink-0"/>
-                <div>
-                    <h3 className="font-semibold text-sm sm:text-base">{name}</h3>
-                    <span className="text-gray-500 text-xs sm:text-sm">{timing}</span>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-gray-200/70 rounded-xl p-3.5 gap-2.5 bg-gray-50/50 hover:bg-white hover:border-blue-200 hover:shadow-xs transition-all duration-200 w-full">
+            <div className="flex flex-row gap-3 items-center min-w-0">
+                <div className="rounded-xl bg-indigo-50 text-indigo-600 p-2 h-9 w-9 shrink-0 flex items-center justify-center border border-indigo-100">
+                    <UserIcon className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                    <h3 className="font-semibold text-sm text-gray-900 truncate">{name}</h3>
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <Clock className="w-3 h-3 text-gray-400 shrink-0" />
+                        <span>{timing}</span>
+                    </div>
                 </div>
             </div>
-            <div className="flex flex-row items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
-                <span className="text-xs text-gray-400 sm:hidden">Type:</span>
-                <button className="border border-gray-200 px-3.5 py-1 text-xs sm:text-sm rounded-full font-semibold bg-gray-50 hover:bg-gray-100 transition shrink-0">
-                    {type}
-                </button>
-            </div>
+            <span className="self-end sm:self-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/60 shrink-0">
+                {type}
+            </span>
         </div>
-    )
-}
+    );
+}

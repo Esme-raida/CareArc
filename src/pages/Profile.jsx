@@ -6,10 +6,10 @@ export default function Profile() {
     const defaultData = {
         facilityName: "CareArc Clinical Intelligence Center",
         unitName: "Ward 4B — Acute & Intensive Care Unit",
-        facilityId: "FAC-4B-LAGOS",
-        emergencyPhone: "+234 (0) 800-227-3272",
+        facilityId: "FAC-4B-ABUJA",
+        emergencyPhone: "+234 (0) 9 461 3272",
         primaryEmail: "ward4b@carearc-health.com",
-        address: "Block 4, Medical Center Drive, Victoria Island, Lagos",
+        address: "Plot 14, Shehu Shagari Way, Central Business District, Abuja",
         bedCapacity: "24 Inpatient Beds",
         activeProtocol: "Longitudinal Vitals & AI Delta Synthesis Protocol",
         vitalsInterval: "4 hours",
@@ -28,7 +28,19 @@ export default function Profile() {
 
     const [profile, setProfile] = useState(() => {
         const saved = localStorage.getItem("carearc_facility_profile");
-        return saved ? JSON.parse(saved) : defaultData;
+        if (!saved) return defaultData;
+        try {
+            const parsed = JSON.parse(saved);
+            if (parsed.address && parsed.address.toLowerCase().includes("lagos")) {
+                parsed.address = defaultData.address;
+                parsed.facilityId = defaultData.facilityId;
+                parsed.emergencyPhone = defaultData.emergencyPhone;
+                localStorage.setItem("carearc_facility_profile", JSON.stringify(parsed));
+            }
+            return parsed;
+        } catch {
+            return defaultData;
+        }
     });
 
     const [isEditing, setIsEditing] = useState(false);
@@ -74,42 +86,42 @@ export default function Profile() {
             )}
 
             <form onSubmit={handleSave}>
-                <section className="grid grid-cols-1 md:grid-cols-[340px_1fr] lg:grid-cols-[380px_1fr] gap-6">
-                    
+                <section className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-6">
+
                     {/* Facility Summary Card */}
                     <div className="border border-gray-200 shadow-sm rounded-2xl p-6 bg-white flex flex-col justify-between">
-                        <div>
-                            <div className="flex flex-col items-center text-center pb-6 border-b border-gray-100">
-                                <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md mb-4">
-                                    <Building2 className="w-10 h-10" />
+                        <div className="flex flex-col lg:flex-row xl:flex-col lg:items-center xl:items-start lg:justify-between gap-6">
+                            <div className="flex flex-col items-center lg:items-start xl:items-center text-center lg:text-left xl:text-center pb-6 lg:pb-0 xl:pb-6 border-b lg:border-b-0 xl:border-b border-gray-100 shrink-0">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md mb-3 sm:mb-4">
+                                    <Building2 className="w-8 h-8 sm:w-10 sm:h-10" />
                                 </div>
-                                <h2 className="font-bold text-xl text-gray-900 leading-tight">
+                                <h2 className="font-bold text-lg sm:text-xl text-gray-900 leading-tight">
                                     {profile.facilityName}
                                 </h2>
                                 <p className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full mt-2 border border-blue-100">
                                     {profile.unitName}
                                 </p>
-                                <span className="text-xs text-gray-400 mt-2 font-mono">
+                                <span className="text-xs text-gray-400 mt-1.5 font-mono">
                                     ID: {profile.facilityId}
                                 </span>
                             </div>
 
-                            <div className="flex flex-col gap-4 mt-6 text-sm text-gray-600">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-col gap-3.5 sm:gap-4 text-sm text-gray-600 flex-1">
                                 <div className="flex items-center gap-3">
                                     <PhoneCall className="w-4 h-4 text-blue-500 shrink-0" />
-                                    <span className="font-medium text-gray-800">{profile.emergencyPhone}</span>
+                                    <span className="font-medium text-gray-800 text-xs sm:text-sm">{profile.emergencyPhone}</span>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <Mail className="w-4 h-4 text-blue-500 shrink-0" />
-                                    <span className="truncate text-gray-800">{profile.primaryEmail}</span>
+                                    <span className="truncate text-gray-800 text-xs sm:text-sm">{profile.primaryEmail}</span>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <MapPin className="w-4 h-4 text-blue-500 shrink-0" />
                                     <span className="text-xs text-gray-600 leading-snug">{profile.address}</span>
                                 </div>
-                                <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
+                                <div className="flex items-center gap-3">
                                     <BedDouble className="w-4 h-4 text-indigo-500 shrink-0" />
-                                    <span className="font-semibold text-gray-700">{profile.bedCapacity}</span>
+                                    <span className="font-semibold text-gray-700 text-xs sm:text-sm">{profile.bedCapacity}</span>
                                 </div>
                             </div>
                         </div>
@@ -119,14 +131,14 @@ export default function Profile() {
                                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                                 Clinical Node Active
                             </span>
-                            <span className="font-mono">v2.4 CareArc</span>
+                            <span className="font-mono">v1.0 CareArc</span>
                         </div>
                     </div>
 
                     {/* Facility & Clinical Workspace Configuration */}
                     <div className="flex flex-col gap-6">
                         <div className="border border-gray-200 shadow-sm rounded-2xl p-6 bg-white">
-                            <div className="flex justify-between items-center mb-6 pb-3 border-b border-gray-100">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-3 border-b border-gray-100">
                                 <div>
                                     <h2 className="font-bold text-xl text-gray-900">Clinical Unit & Facility Information</h2>
                                     <p className="text-xs text-gray-500">Configure center parameters, ward location, and clinical contacts</p>
@@ -134,14 +146,14 @@ export default function Profile() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditing(!isEditing)}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition self-start sm:self-auto shrink-0"
                                 >
                                     <PencilSquareIcon className="w-4 h-4" />
                                     {isEditing ? "Lock Editing" : "Edit Details"}
                                 </button>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-600 mb-1">Facility Name</label>
                                     <input
@@ -186,7 +198,7 @@ export default function Profile() {
                                     />
                                 </div>
 
-                                <div className="md:col-span-2">
+                                <div className="sm:col-span-2">
                                     <label className="block text-xs font-semibold text-gray-600 mb-1">Facility Address</label>
                                     <input
                                         type="text"
@@ -260,7 +272,7 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                 <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-200 flex flex-col gap-1">
                                     <span className="text-xs font-semibold text-gray-500 flex items-center gap-1">
                                         <Clock className="w-3.5 h-3.5 text-blue-500" /> Standard Vitals Check Schedule

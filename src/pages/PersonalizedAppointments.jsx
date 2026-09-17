@@ -34,51 +34,66 @@ export default function PersonalizedAppointments() {
     const upcomingAppointments = patientAppointments.filter((appointment) => getAppointmentStatus(appointment) === "scheduled")
 
     return (
-        <div>
-            <div className="flex flex-col gap-2 border border-gray-200 shadow-sm rounded-xl w-full px-6 py-5 bg-white">
-                {patientAppointments && patientAppointments.length > 0 ? (
-                    <>
-                        <section className="flex flex-col gap-1">
+        <div className="flex flex-col gap-6 border border-gray-200/70 shadow-2xs rounded-2xl w-full p-4 sm:p-6 bg-white">
+            {patientAppointments && patientAppointments.length > 0 ? (
+                <>
+                    <section className="flex flex-col gap-3">
+                        <div className="flex items-center justify-between border-b border-gray-100 pb-2.5">
+                            <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-4 h-4 text-blue-600" />
+                                <h3 className="font-bold text-sm sm:text-base text-gray-900">Appointments Today</h3>
+                            </div>
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
+                                {todayAppointments.length}
+                            </span>
+                        </div>
+                        {todayAppointments.length > 0 ? (
+                            todayAppointments.map((appointment) => (
+                                <IndividualAppointment
+                                    key={appointment.id}
+                                    name={getPractitionerName(appointment.type)}
+                                    appointmentType={appointment.type}
+                                    timing={appointment.time}
+                                    duration={appointment.duration}
+                                    state={getAppointmentStatus(appointment)}
+                                />
+                            ))
+                        ) : (
+                            <p className="text-gray-400 text-xs sm:text-sm py-3 italic">No consultations scheduled for today.</p>
+                        )}
+                    </section>
 
-                            {/*Today's Appointments*/}
-                            <span className="font-bold mb-2">Appointments Today</span>
-                            {todayAppointments.length > 0 ? (
-                                todayAppointments.map((appointment) => (
-                                    <IndividualAppointment
-                                        key={appointment.id}
-                                        name={getPractitionerName(appointment.type)}
-                                        appointmentType={appointment.type}
-                                        timing={appointment.time}
-                                        duration={appointment.duration}
-                                        state={getAppointmentStatus(appointment)} />
-                                ))
-                            ) : (
-                                <span className="text-gray-500 text-sm">No appointments scheduled for today.</span>
-                            )}
-                        </section>
-                        <section className="flex flex-col gap-2">
-
-                            {/*Upcoming Scheduled Visits*/}
-                            <span className="font-bold text-gray-700 mb-2">Upcoming Scheduled Visits</span>
-                            {upcomingAppointments.length > 0 ? (
-                                upcomingAppointments.map((appointment) => (
-                                    <IndividualAppointment
-                                        key={appointment.id}
-                                        name={getPractitionerName(appointment.type)}
-                                        appointmentType={appointment.type}
-                                        timing={`${appointment.date} @ ${appointment.time}`} // Shows date & time
-                                        duration={appointment.duration}
-                                        state={getAppointmentStatus(appointment)} />
-                                ))
-                            ) : (
-                                <span className="text-gray-500 text-sm">No upcoming appointments scheduled.</span>
-                            )}
-                        </section>
-                    </>
-                ) : (
-                    <span className="text-gray-500">No appointments recorded for this patient.</span>
-                )}
-            </div>
+                    <section className="flex flex-col gap-3">
+                        <div className="flex items-center justify-between border-b border-gray-100 pb-2.5">
+                            <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-4 h-4 text-indigo-600" />
+                                <h3 className="font-bold text-sm sm:text-base text-gray-900">Upcoming Scheduled Visits</h3>
+                            </div>
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                {upcomingAppointments.length}
+                            </span>
+                        </div>
+                        {upcomingAppointments.length > 0 ? (
+                            upcomingAppointments.map((appointment) => (
+                                <IndividualAppointment
+                                    key={appointment.id}
+                                    name={getPractitionerName(appointment.type)}
+                                    appointmentType={appointment.type}
+                                    timing={`${appointment.date} @ ${appointment.time}`}
+                                    duration={appointment.duration}
+                                    state={getAppointmentStatus(appointment)}
+                                />
+                            ))
+                        ) : (
+                            <p className="text-gray-400 text-xs sm:text-sm py-3 italic">No upcoming appointments currently scheduled.</p>
+                        )}
+                    </section>
+                </>
+            ) : (
+                <div className="py-8 text-center text-gray-400 text-xs sm:text-sm italic">
+                    No appointments recorded for this patient.
+                </div>
+            )}
         </div>
     )
 }

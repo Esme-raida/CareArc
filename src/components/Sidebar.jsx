@@ -11,7 +11,7 @@ function Sidebar({ onClose }) {
     const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
 
     return (
-        <div className="flex flex-col justify-between h-full min-h-screen border-r border-r-gray-200/60 bg-white">
+        <div className="flex flex-col justify-between h-full md:min-h-screen overflow-y-auto border-r border-r-gray-200/60 bg-white">
 
 
             <div className="flex flex-col p-4 pt-8 gap-6 ">
@@ -43,8 +43,8 @@ function Sidebar({ onClose }) {
                 </div>
 
                 {/*Nav Links*/}
-                <div className=" text-gray-600">
-                    <h2 className="text-gray-400 pl-4.5 mb-3 text-xs uppercase tracking-wider font-medium"> Navigation </h2>
+                <div className="flex flex-col gap-1 text-gray-600">
+                    <h2 className="text-gray-400 px-3.5 mb-2 text-[11px] uppercase tracking-wider font-bold"> Navigation </h2>
                     {!isRecords && <IndividualPage Icon={LayoutDashboardIcon} name="Clinic Dashboard" to="/dashboard" onClick={onClose} />}
                     <IndividualPage Icon={CalendarIcon} name="Appointments" to="/dashboard/appointments" onClick={onClose} />
                     <IndividualPage Icon={UserGroupIcon} name="Patients" to="/dashboard/patients" onClick={onClose} />

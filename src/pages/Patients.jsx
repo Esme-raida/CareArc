@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { UserGroupIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { SearchIcon, Trash2, LockIcon } from "lucide-react";
+import { SearchIcon, Trash2, LockIcon, RotateCcw } from "lucide-react";
 import { patientColumns } from "../data/patientsData.js";
 import { useState } from "react";
 import usePatients from "../hooks/usePatients";
@@ -14,12 +14,25 @@ export default function Patients() {
     const { patientsArray, deletePatient, resetPatients } = usePatients();
     const { vitalsArray } = useVitals();
     const { thresholds } = useThresholds();
-    const { canRegisterNewPatient } = useAuth();
+    const { canRegisterNewPatient, isRecords } = useAuth();
 
     const [searchValue, setSearchValue] = useState("");
+    const [typeFilter, setTypeFilter] = useState("all"); // "all" | "inpatient" | "outpatient"
 
     const validPatients = patientsArray.filter(patient => patient && patient.name && patient.name.trim() !== "");
-    const searchedPatients = validPatients.filter(patient => (patient.name || "").toLowerCase().includes(searchValue));
+    const searchedPatients = validPatients.filter(patient => {
+        const matchesSearch = (patient.name || "").toLowerCase().includes(searchValue) ||
+            (patient.condition || "").toLowerCase().includes(searchValue) ||
+            (patient.id || "").toLowerCase().includes(searchValue);
+
+        const isOutpatient = !patient.room || patient.room.toLowerCase() === "outpatient" || patient.room.toLowerCase() === "n/a";
+        if (typeFilter === "inpatient") return matchesSearch && !isOutpatient;
+        if (typeFilter === "outpatient") return matchesSearch && isOutpatient;
+        return matchesSearch;
+    });
+
+    const inpatientCount = validPatients.filter(p => p.room && p.room.toLowerCase() !== "outpatient" && p.room.toLowerCase() !== "n/a").length;
+    const outpatientCount = validPatients.filter(p => !p.room || p.room.toLowerCase() === "outpatient" || p.room.toLowerCase() === "n/a").length;
 
     const filteredPatients = searchedPatients.sort((a, b) => {
         const vitalsA = vitalsArray.filter(vital => vital.patientId === a.id);
@@ -54,54 +67,97 @@ export default function Patients() {
     });
 
     return (
-        <main className="flex flex-col min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-100 w-full max-w-7xl mx-auto">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <header className="pt-6">
-                    <div className="flex items-center gap-1.5 text-2xl font-bold">
-                        <UserGroupIcon className="h-8 w-8 text-blue-500" />
-                        <h1>Patients Directory</h1>
+        <main className="flex flex-col min-h-screen px-3.5 sm:px-6 lg:px-8 bg-gray-100 w-full max-w-7xl mx-auto">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 py-5 sm:py-6 mb-2">
+                <header className="flex items-center gap-3">
+                    <div className="p-2.5 sm:p-3 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 shrink-0 shadow-2xs">
+                        <UserGroupIcon className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <p className="text-gray-500 text-sm">Manage patient records and clinical information</p>
+                    <div>
+                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">Patients Directory</h1>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-0.5">Manage patient records and clinical information</p>
+                    </div>
                 </header>
-                <div className="flex items-center gap-2 self-end sm:self-auto">
+
+                <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
                     {resetPatients && (
                         <button
                             onClick={resetPatients}
                             title="Reset Directory to seed patients"
-                            className="bg-gray-200 border border-gray-300 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-300 transition-all text-xs sm:text-sm font-semibold"
+                            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-white border border-gray-200/80 hover:bg-gray-50 hover:border-gray-300 text-gray-700 px-3.5 py-2.5 rounded-xl transition-all shadow-2xs text-xs sm:text-sm font-semibold shrink-0"
                         >
-                            🔄 Reset Seed Directory
+                            <RotateCcw className="w-4 h-4 text-gray-500 shrink-0" />
+                            <span>Reset Directory</span>
                         </button>
                     )}
-                    <Link to={canRegisterNewPatient ? "/dashboard/patients/addpatientpage" : ""}>
+                    <Link to={canRegisterNewPatient ? "/dashboard/patients/addpatientpage" : ""} className="flex-1 sm:flex-none shrink-0">
                         <button
-                            className={!canRegisterNewPatient ? "flex flex-row items-center gap-1 border border-gray-300 bg-gray-200 text-gray-400 rounded-md px-2 py-1.5 cursor-not-allowed"
-                                : "flex flex-row gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold"
+                            className={!canRegisterNewPatient 
+                                ? "w-full inline-flex items-center justify-center gap-2 border border-gray-200 bg-gray-100 text-gray-400 rounded-xl px-4 py-2.5 cursor-not-allowed text-xs sm:text-sm font-semibold shrink-0"
+                                : "w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white px-4 py-2.5 rounded-xl shadow-xs transition-all text-xs sm:text-sm font-semibold shrink-0"
                             }
-                            title={!canRegisterNewPatient ? "You do not have access to register new patients" : ""} //the title is not displaying here...recheck 
+                            title={!canRegisterNewPatient ? "You do not have access to register new patients" : ""}
                             disabled={!canRegisterNewPatient}>
-                            {!canRegisterNewPatient ? <LockIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
-                            Add Patient
+                            {!canRegisterNewPatient ? <LockIcon className="w-4 h-4 shrink-0" /> : <PlusIcon className="w-4 h-4 shrink-0" />}
+                            <span>Add Patient</span>
                         </button>
                     </Link>
                 </div>
             </div>
 
-            <div className="mb-6 relative text-gray-500 w-full max-w-md">
-                <input
-                    aria-label="Search Patients by name"
-                    placeholder="Search patients"
-                    className="w-full border border-gray-200 bg-white rounded-xl shadow-sm outline-0 pl-10 pr-4 py-2 placeholder:text-gray-500"
-                    onChange={(e) => {
-                        setSearchValue(e.target.value.toLowerCase().trim());
-                    }}
-                />
-                <SearchIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+            {/* Census Tabs & Search */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                <div className="inline-flex p-1 bg-gray-200/70 rounded-xl w-fit">
+                    <button
+                        onClick={() => setTypeFilter("all")}
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                            typeFilter === "all"
+                                ? "bg-white text-gray-900 shadow-xs"
+                                : "text-gray-600 hover:text-gray-900"
+                        }`}
+                    >
+                        All ({validPatients.length})
+                    </button>
+                    <button
+                        onClick={() => setTypeFilter("inpatient")}
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                            typeFilter === "inpatient"
+                                ? "bg-white text-gray-900 shadow-xs"
+                                : "text-gray-600 hover:text-gray-900"
+                        }`}
+                    >
+                        Inpatients ({inpatientCount})
+                    </button>
+                    <button
+                        onClick={() => setTypeFilter("outpatient")}
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                            typeFilter === "outpatient"
+                                ? "bg-white text-gray-900 shadow-xs"
+                                : "text-gray-600 hover:text-gray-900"
+                        }`}
+                    >
+                        Outpatients ({outpatientCount})
+                    </button>
+                </div>
+
+                <div className="relative text-gray-500 w-full sm:w-72">
+                    <input
+                        aria-label="Search Patients by name"
+                        placeholder="Search patients..."
+                        className="w-full border border-gray-200 bg-white rounded-xl shadow-xs outline-0 pl-10 pr-4 py-2 text-xs sm:text-sm placeholder:text-gray-400 focus:border-blue-500 transition"
+                        onChange={(e) => {
+                            setSearchValue(e.target.value.toLowerCase().trim());
+                        }}
+                    />
+                    <SearchIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
             </div>
 
             <section className="border border-gray-200 shadow-sm rounded-xl w-full px-4 py-6 md:px-6 md:py-8 bg-white mb-8">
                 <div className="flex justify-between items-center mb-4">
-                    <span className="text-xl md:text-2xl font-semibold">All Patients ({filteredPatients.length})</span>
+                    <span className="text-xl md:text-2xl font-semibold">
+                        {typeFilter === "all" ? "All Patients" : typeFilter === "inpatient" ? "Inpatients (Admitted)" : "Outpatients (Ambulatory)"} ({filteredPatients.length})
+                    </span>
                 </div>
                 <div className="overflow-x-auto w-full">
                     <table className="w-full min-w-[600px]">
@@ -146,6 +202,23 @@ export default function Patients() {
                                                         <span className="text-gray-700 text-xs font-medium">{patientStatus}</span>
                                                     </span>
                                                 );
+                                            } else if (column.key === "room") {
+                                                const isOutpatient = !patient.room || patient.room.toLowerCase() === "outpatient" || patient.room.toLowerCase() === "n/a";
+                                                cellContent = isOutpatient ? (
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                                                        Outpatient
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                                        {patient.room}
+                                                    </span>
+                                                );
+                                            } else if (column.key === "admitted") {
+                                                cellContent = patient.admitted ? (
+                                                    <span className="text-gray-600 text-xs font-mono">{patient.admitted}</span>
+                                                ) : (
+                                                    <span className="text-gray-400 text-xs italic">Ambulatory</span>
+                                                );
                                             } else {
                                                 cellContent = patient[column.key];
                                             }
@@ -163,9 +236,10 @@ export default function Patients() {
                                         <td className="px-4 py-3 text-sm text-right">
                                             <button
                                                 type="button"
+                                                disabled={!isRecords}
                                                 onClick={() => deletePatient && deletePatient(patient.id)}
-                                                title="Delete Patient"
-                                                className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                title={!isRecords ? "You do not have the permission to delete patients" : "Delete Patient"}
+                                                className={!isRecords ? "text-gray-200 cursor-not-allowed" : "p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"}
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>

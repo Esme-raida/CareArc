@@ -1,7 +1,9 @@
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 export default function AddNoteForm({ setIsNoteFormOpen, setNotesArray, patientId }) {
 
+    const { user } = useAuth();
     const [noteData, setNoteData] = useState({
         content: "",
     });
@@ -13,7 +15,9 @@ export default function AddNoteForm({ setIsNoteFormOpen, setNotesArray, patientI
             ...noteData,
             id: `NOTE-${Date.now()}`,
             patientId: patientId,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            author: user?.name || "Clinical Staff",
+            role: user?.title || "Staff"
         }
         //Update state for immediate recovery
         setNotesArray(prev => [...prev, newNote]);

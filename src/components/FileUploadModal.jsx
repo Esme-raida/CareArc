@@ -28,7 +28,7 @@ export default function FileUploadModal({ setIsFileModalOpen, patientId }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-lg bg-white border border-gray-200 shadow-xl rounded-xl p-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-lg bg-white border border-gray-200 shadow-xl rounded-xl p-5 sm:p-6 max-h-[90vh] overflow-y-auto">
 
             {/* Header */}
             <div className="flex justify-between items-center border-b border-gray-100 pb-3">
@@ -41,16 +41,16 @@ export default function FileUploadModal({ setIsFileModalOpen, patientId }) {
                     <X className="w-5 h-5" />
                 </button>
             </div>
-            <div>
-                <label className="text-slate-700 font-semibold">Title: </label>
-                <input className="border border-gray-200 rounded-md ml-4 px-2 py-1" type="text" placeholder="Abdominal Ultrasound"
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4">
+                <label className="text-slate-700 font-semibold text-sm">Title: </label>
+                <input className="border border-gray-200 rounded-md px-3 py-1.5 text-sm flex-1" type="text" placeholder="Abdominal Ultrasound"
                     value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}></input>
             </div>
-            <div>
-                <label className="text-slate-700 font-semibold">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4">
+                <label className="text-slate-700 font-semibold text-sm">
                     Category:
                 </label>
-                <select className="border border-gray-200 rounded-md ml-4 px-2 py-1 text-gray-500 cursor-pointer focus:border-blue-500 outline-none"
+                <select className="border border-gray-200 rounded-md px-3 py-1.5 text-sm text-gray-700 cursor-pointer focus:border-blue-500 outline-none flex-1"
                     value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
                     <option value="Lab Result">Lab Result</option>
                     <option value="Imaging">Imaging (X-Ray, CT, MRI)</option>

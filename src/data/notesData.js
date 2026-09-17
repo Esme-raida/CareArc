@@ -159,4 +159,40 @@ export const notesData = [
     type: "handover",
     author: "Nurse Fatima",
   },
+
+  // ═══════════════════════════════════════════
+  // PT-006 — David Adeleke (OUTPATIENT)
+  // ═══════════════════════════════════════════
+  {
+    id: "NOTE-018",
+    patientId: "PT-006",
+    timestamp: "2026-07-28T10:00:00",
+    content: "Routine executive wellness examination. Physical examination unremarkable. Cardiovascular and respiratory parameters optimal. Cleared with healthy lifestyle recommendations.",
+    type: "review",
+    author: "Dr. Sarah Chen",
+  },
+
+  // ═══════════════════════════════════════════
+  // PT-007 — Fatima Abubakar (OUTPATIENT)
+  // ═══════════════════════════════════════════
+  {
+    id: "NOTE-019",
+    patientId: "PT-007",
+    timestamp: "2026-07-28T10:45:00",
+    content: "Second-trimester routine antenatal visit. Fundal height corresponds with dates. Fetal heart sounds clear at 140 BPM. Urine dipstick clear. Routine supplements refilled.",
+    type: "observation",
+    author: "Dr. Sarah Chen",
+  },
+
+  // ═══════════════════════════════════════════
+  // PT-008 — Oluwaseun Bakare (OUTPATIENT)
+  // ═══════════════════════════════════════════
+  {
+    id: "NOTE-020",
+    patientId: "PT-008",
+    timestamp: "2026-07-28T11:30:00",
+    content: "Hypertension outpatient follow-up. Blood pressure demonstrates adequate control on current regimen. Patient advised on low-sodium dietary adherence. Follow-up booked in 6 weeks.",
+    type: "treatment",
+    author: "Dr. Sarah Chen",
+  },
 ];

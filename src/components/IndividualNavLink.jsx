@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 
-export default function IndividualNavLink({ to, end, name, patientNotes }) {
+export default function IndividualNavLink({ to, end, name }) {
   const location = useLocation();
 
   const isDefaultSettingsTab =
@@ -11,15 +11,18 @@ export default function IndividualNavLink({ to, end, name, patientNotes }) {
     <NavLink
       to={to}
       end={end}
-      className={({ isActive }) =>
-        isActive || isDefaultSettingsTab
-          ? "px-3 py-1.5 rounded-lg bg-white text-blue-600 font-semibold shadow-xs whitespace-nowrap"
-          : "px-3 py-1.5 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition whitespace-nowrap"
-      }
+      className={({ isActive }) => {
+        const active = isActive || isDefaultSettingsTab;
+        return [
+          "px-3 py-1.5 rounded-lg font-semibold text-xs sm:text-sm whitespace-nowrap shrink-0 transition flex items-center justify-center",
+          active
+            ? "bg-white text-blue-600 shadow-xs"
+            : "text-gray-600 hover:bg-white/60 hover:text-gray-900"
+        ].join(" ");
+      }}
     >
-      <span className="flex items-center gap-2">
-        {name}
-      </span>
+      <span>{name}</span>
     </NavLink>
   );
 }
+

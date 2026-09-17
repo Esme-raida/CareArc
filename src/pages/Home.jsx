@@ -15,16 +15,16 @@ export default function HomePage() {
     return (
         <main className="min-h-screen relative flex flex-col font-sans bg-gray-50/50">
             {/* STICKY GLASS HEADER */}
-            <header className="w-full flex items-center justify-between bg-white/80 backdrop-blur-md px-6 py-4 fixed top-0 z-50 border-b border-gray-100 transition-all">
-                <div className="flex flex-row gap-3 items-center">
-                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-2">
+            <header className="w-full flex items-center justify-between bg-white/80 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 fixed top-0 z-50 border-b border-gray-100 transition-all">
+                <div className="flex flex-row gap-2.5 sm:gap-3 items-center">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-2 shrink-0">
                         <HeartIcon className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex flex-col">
-                        <h1 className="text-xl font-bold leading-tight text-gray-900 tracking-tight">
+                        <h1 className="text-lg sm:text-xl font-bold leading-tight text-gray-900 tracking-tight">
                             CareArc
                         </h1>
-                        <span className="text-gray-600 text-sm">Patient Intelligence System</span>
+                        <span className="text-gray-600 text-xs hidden sm:inline">Patient Intelligence System</span>
                     </div>
                 </div>
                 <Link to="/dashboard">

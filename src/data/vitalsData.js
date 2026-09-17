@@ -368,4 +368,49 @@ export const vitalsData = [
     respiratoryRate: 18,
     recordedBy: "Nurse Fatima",
   },
+
+  // ═══════════════════════════════════════════
+  // PT-006 — David Adeleke (OUTPATIENT — HEALTHY)
+  // ═══════════════════════════════════════════
+  {
+    id: "VIT-032",
+    patientId: "PT-006",
+    timestamp: "2026-07-28T09:30:00",
+    heartRate: 72,
+    bloodPressure: { systolic: 118, diastolic: 76 },
+    oxygen: 99,
+    temperature: 36.6,
+    respiratoryRate: 14,
+    recordedBy: "Nurse Fatima",
+  },
+
+  // ═══════════════════════════════════════════
+  // PT-007 — Fatima Abubakar (OUTPATIENT — ANTENATAL)
+  // ═══════════════════════════════════════════
+  {
+    id: "VIT-033",
+    patientId: "PT-007",
+    timestamp: "2026-07-28T10:15:00",
+    heartRate: 78,
+    bloodPressure: { systolic: 115, diastolic: 74 },
+    oxygen: 98,
+    temperature: 36.8,
+    respiratoryRate: 16,
+    recordedBy: "Nurse James",
+  },
+
+  // ═══════════════════════════════════════════
+  // PT-008 — Oluwaseun Bakare (OUTPATIENT — HYPERTENSION)
+  // ═══════════════════════════════════════════
+  {
+    id: "VIT-034",
+    patientId: "PT-008",
+    timestamp: "2026-07-28T11:00:00",
+    heartRate: 76,
+    bloodPressure: { systolic: 136, diastolic: 86 },
+    oxygen: 97,
+    temperature: 36.7,
+    respiratoryRate: 16,
+    recordedBy: "Dr. Sarah Chen",
+  },
 ];

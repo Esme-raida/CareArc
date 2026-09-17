@@ -13,11 +13,13 @@ const getInitialAppointments = () => {
             const parsed = JSON.parse(stored);
             // Verify that parsed contains valid patients and no legacy dummy names
             if (
-                Array.isArray(parsed) && // returns true or false if the item is an array or not
+                Array.isArray(parsed) &&
                 parsed.length > 0 &&
                 parsed.every((item) => item.patientId && item.name)
             ) {
-                return parsed;
+                const existingIds = new Set(parsed.map((a) => a.id));
+                const missing = appointmentsData.filter((a) => !existingIds.has(a.id));
+                return [...parsed, ...missing];
             }
         } catch (e) {
             console.error("Error parsing stored appointments", e);

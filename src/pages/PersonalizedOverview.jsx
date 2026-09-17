@@ -1,12 +1,16 @@
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { PatientDetailContext } from "../context/PatientsDetailContext";
 import { computeDeltas, derivePatientStatus, generateLatestUpdate } from "../utils/deltaEngine";
 import { ResponsiveContainer, Line, LineChart, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
-import { Sparkles } from "lucide-react";
+import { Sparkles, AlertTriangle } from "lucide-react";
+import useAuth from "../hooks/useAuth";
 
 
 
 export default function PersonalizedOverview() {
+
+    const { canAccessClinicalNotes } = useAuth();
 
     //Grabbing the patient data and modal controller from context....
     const { latestVital, patientVitals, patientNotes, setIsAIModalOpen } = useContext(PatientDetailContext);
@@ -89,33 +93,62 @@ export default function PersonalizedOverview() {
 
             {/* CareArc Clinical Intelligence Banner */}
             <div
-                onClick={handleAISummaryClick}
-                className="mb-8 p-4.5 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white rounded-2xl shadow-md flex items-center justify-between hover:shadow-lg hover:scale-[1.005] transition-all cursor-pointer border border-slate-700/50"
+                onClick={canAccessClinicalNotes ? handleAISummaryClick : undefined}
+                className={`mb-2 sm:mb-3 p-4 sm:p-5 bg-gradient-to-r from-slate-900 via-slate-800 
+                    to-blue-950 text-white rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:shadow-lg 
+                    border border-slate-700/50 ${canAccessClinicalNotes ? "hover:scale-[1.005] transition-all cursor-pointer" : "opacity-80 cursor-not-allowed"}`}
             >
-                <div className="flex items-center gap-3.5">
-                    <div className="p-2.5 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30">
+                <div className="flex items-start sm:items-center gap-3 sm:gap-3.5">
+                    <div className="p-2.5 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-400/30 shrink-0 mt-0.5 sm:mt-0">
                         <Sparkles className="w-5 h-5 animate-pulse" />
                     </div>
                     <div>
-                        <div className="flex items-center gap-2">
-                            <h3 className="font-bold text-sm tracking-wide">AI Clinical Health Summary</h3>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-bold text-sm sm:text-base tracking-wide">AI Clinical Health Summary</h3>
                             <span className="px-2 py-0.5 text-[10px] font-semibold bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
                                 SBAR Handover
                             </span>
                         </div>
-                        <p className="text-xs text-slate-300 mt-0.5">
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                             Generate real-time trajectory synthesis, risk stratification, and handover recommendations.
                         </p>
                     </div>
                 </div>
-                <button className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-xs">
+                <button className="w-full sm:w-auto px-4 py-2 sm:py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-xs shrink-0 text-center">
                     View Synthesis
                 </button>
             </div>
 
+            {/* Active Telemetry Alert Banner */}
+            {(patientStatus === "Review" || patientStatus === "Watch") && (
+                <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center border shadow-sm rounded-xl w-full p-4 gap-3 ${
+                    patientStatus === "Review"
+                        ? "border-red-300 bg-red-50"
+                        : "border-amber-300 bg-amber-50"
+                }`}>
+                    <div className="flex items-center gap-3">
+                        <AlertTriangle className={`h-6 w-6 shrink-0 ${patientStatus === "Review" ? "text-red-500" : "text-amber-500"}`} />
+                        <div>
+                            <h3 className="font-bold text-sm text-gray-900">
+                                {patientStatus === "Review" ? "Critical Acuity Alert" : "Acuity Warning"} · {patientStatus}
+                            </h3>
+                            <p className="text-xs text-gray-600 mt-0.5">
+                                Bedside telemetry variance detected for {latestVital?.heartRate ? `${latestVital.heartRate} bpm heart rate` : "vital signs"}
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        to="/dashboard/alerts"
+                        className="text-blue-600 font-semibold text-xs sm:text-sm hover:underline shrink-0"
+                    >
+                        View Alerts →
+                    </Link>
+                </div>
+            )}
+
 
             {/*Clinical Overview Card*/}
-            <div className="flex flex-col gap-4 border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white">
+            <div className="flex flex-col gap-4 border border-gray-200/60 shadow-sm rounded-2xl w-full p-4 sm:p-6 bg-white">
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-lg text-gray-800">Clinical Overview</h2>
                     <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${badgeColor}`}>
@@ -123,7 +156,7 @@ export default function PersonalizedOverview() {
                     </span>
                 </div>
 
-                <div className="p-4 bg-gray-50/80 border border-gray-100 rounded-xl">
+                <div className="p-3.5 sm:p-4 bg-gray-50/80 border border-gray-100 rounded-xl">
                     <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">
                         Latest Trajectory Update
                     </span>
@@ -140,7 +173,7 @@ export default function PersonalizedOverview() {
 
 
             {/*Vitals Trajectory Chart Card*/}
-            <div className="flex flex-col border border-gray-200/60 shadow-sm rounded-2xl w-full px-6 py-5 bg-white flex flex-col gap-4">
+            <div className="flex flex-col border border-gray-200/60 shadow-sm rounded-2xl w-full p-4 sm:p-6 bg-white gap-4">
                 <h3 className="font-semibold text-gray-800 text-lg">Vitals Trajectory Trends</h3>
                 {chartData.length < 2 ? (
                     <p className="text-sm text-gray-400 py-8 text-center">Need at least 2 vital readings to display trajectory</p>

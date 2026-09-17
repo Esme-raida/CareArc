@@ -56,7 +56,7 @@ export default function AppointmentForm({ setAppointmentsList, setIsFormOpen, de
 
 
             }} >
-            <div className="flex flex-col w-full px-6 py-5">
+            <div className="flex flex-col w-full px-4 sm:px-6 py-5 overflow-y-auto">
                 <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
                     <h2 className="font-semibold text-xl">New Appointment</h2>
                     <button
