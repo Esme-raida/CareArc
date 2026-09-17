@@ -1,6 +1,6 @@
-import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon, Sparkles } from "lucide-react";
+import { ThermometerIcon, ActivityIcon, CalendarIcon, DropletsIcon, HeartIcon, LockIcon } from "lucide-react";
 import { DocumentPlusIcon, DocumentIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import usePatients from "../hooks/usePatients.jsx";
 import useVitals from "../hooks/useVitals.jsx";
@@ -17,6 +17,7 @@ import RecordVitalsForm from "../components/RecordVitalsForm.jsx";
 import { computeDeltas } from "../utils/deltaEngine.js";
 import FileUploadModal from "../components/FileUploadModal.jsx";
 import AISummaryModal from "../components/AISummaryModal.jsx";
+import useAuth from "../hooks/useAuth.jsx";
 
 
 export default function PateintDetail() {
@@ -31,6 +32,14 @@ export default function PateintDetail() {
     const [isVitalFormOpen, setIsVitalFormOpen] = useState(false);
     const [isFileModalOpen, setIsFileModalOpen] = useState(false);
     const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+    const { user } = useAuth();
+
+    //checking for the appropriate records role
+    const isRecordRole = user?.role === "records";
+    const isNurseRole = user?.role === "nurse";
+    const isDoctorRole = user?.role === "doctor";
+
+    const { canBookAppointments, canAccessClinicalNotes, canRegisterNewPatient } = useAuth();
 
 
     // useParams is how a page reads info from the URL
@@ -122,24 +131,33 @@ export default function PateintDetail() {
                     </div>
                     {/*Quick Action Cards*/}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                        <button onClick={() => { setIsVitalFormOpen(true) }}>
+                        <button onClick={() => { setIsVitalFormOpen(true) }}
+                            className={!canAccessClinicalNotes ? "opacity-70 cursor-not-allowed disabled:pointer-events-none" : ""}
+                            title={!canAccessClinicalNotes ? "You do not have access to record patients vitals" : ""}
+                            disabled={!canAccessClinicalNotes}>
                             <PersonalizedQuickActions
-                                icon={DocumentPlusIcon}
+                                icon={!canAccessClinicalNotes ? LockIcon : DocumentPlusIcon}
                                 quickActionTitle="Record Vitals" />
                         </button>
 
 
                         {/*Appointment button*/}
-                        <button onClick={() => { setIsAppointmentFormOpen(true) }}>
+                        <button onClick={() => { setIsAppointmentFormOpen(true) }}
+                            className={!canBookAppointments ? "opacity-70 cursor-not-allowed" : ""}
+                            title={!canBookAppointments ? "You do not have access to book appointments" : ""}
+                            disabled={!canBookAppointments}>
                             <PersonalizedQuickActions
-                                icon={CalendarIcon}
+                                icon={!canBookAppointments ? LockIcon : CalendarIcon}
                                 quickActionTitle="+ Appointment" />
                         </button>
 
                         {/*Add Note button*/}
-                        <button onClick={() => { setIsNoteFormOpen(true) }}>
+                        <button onClick={() => { setIsNoteFormOpen(true) }}
+                            className={!canAccessClinicalNotes ? "opacity-70 cursor-not-allowed" : ""}
+                            title={!canAccessClinicalNotes ? "You do not have access to write clinical notes" : ""}
+                            disabled={!canAccessClinicalNotes}>
                             <PersonalizedQuickActions
-                                icon={DocumentIcon}
+                                icon={!canAccessClinicalNotes ? LockIcon : DocumentIcon}
                                 quickActionTitle="Add Note"
                             />
                         </button>

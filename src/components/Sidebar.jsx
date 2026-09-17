@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import { SettingsIcon, CalendarIcon, LayoutDashboardIcon, X, HeartIcon, ChevronDown, Check } from "lucide-react";
 import { AuthContext, MOCK_USERS } from "../context/AuthContext";
+import useAuth from "../hooks/useAuth";
 
 function Sidebar({ onClose }) {
-    const { user, login } = useContext(AuthContext);
+    const { user, login, isRecords } = useAuth();
     const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
 
     return (
@@ -44,10 +45,10 @@ function Sidebar({ onClose }) {
                 {/*Nav Links*/}
                 <div className=" text-gray-600">
                     <h2 className="text-gray-400 pl-4.5 mb-3 text-xs uppercase tracking-wider font-medium"> Navigation </h2>
-                    <IndividualPage Icon={LayoutDashboardIcon} name="Clinic Dashboard" to="/dashboard" onClick={onClose} />
+                    {!isRecords && <IndividualPage Icon={LayoutDashboardIcon} name="Clinic Dashboard" to="/dashboard" onClick={onClose} />}
                     <IndividualPage Icon={CalendarIcon} name="Appointments" to="/dashboard/appointments" onClick={onClose} />
                     <IndividualPage Icon={UserGroupIcon} name="Patients" to="/dashboard/patients" onClick={onClose} />
-                    <IndividualPage Icon={SettingsIcon} name="Settings" to="/dashboard/settings" onClick={onClose} />
+                    {!isRecords && <IndividualPage Icon={SettingsIcon} name="Settings" to="/dashboard/settings" onClick={onClose} />}
                 </div>
             </div>
 

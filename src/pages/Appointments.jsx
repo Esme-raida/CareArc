@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, LockIcon, Clock4Icon, PlusIcon } from "lucide-react";
 import IndividualAppointment from "../components/Individualappointment";
 import AppointmentForm from "../components/AppointmentForm";
-import { Clock4Icon } from "lucide-react";
 import IndividualupcomingAppointment from "../components/UpcomingAppointments";
 import useAppointments from "../hooks/useAppointments";
 import { getAppointmentStatus } from "../utils/getAppointmentStatus";
+import useAuth from "../hooks/useAuth";
 
 export default function Appointments({ }) {
 
     const { appointmentsList, setAppointmentsList, resetAppointments } = useAppointments();
+    const { canBookAppointments } = useAuth();
 
     // State to check if the form/dropdown is open or closed
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -67,9 +68,15 @@ export default function Appointments({ }) {
                             </button>
                         )}
                         <button
-                            onClick={() => { setIsFormOpen(true) }}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold">
-                            + Schedule Visit
+                            onClick={canBookAppointments ? () => setIsFormOpen(true) : () => setIsFormOpen(false)}
+                            className={!canBookAppointments ? "flex flex-row items-center gap-1 border border-gray-300 bg-gray-200 text-gray-400 rounded-md px-2 py-1.5 cursor-not-allowed"
+                                : "flex flex-row gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold"
+                            }
+                            title={!canBookAppointments ? "You do not have access to schedule appointments" : ""} //the title is not displaying here...recheck 
+                            disabled={!canBookAppointments}
+                        >
+                            {!canBookAppointments ? <LockIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                            Schedule Visit
                         </button>
                     </div>
                 </div>

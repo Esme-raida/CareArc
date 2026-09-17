@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { UserGroupIcon } from "@heroicons/react/24/outline";
-import { SearchIcon, Trash2 } from "lucide-react";
+import { UserGroupIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { SearchIcon, Trash2, LockIcon } from "lucide-react";
 import { patientColumns } from "../data/patientsData.js";
 import { useState } from "react";
 import usePatients from "../hooks/usePatients";
@@ -8,11 +8,13 @@ import useVitals from "../hooks/useVitals";
 import useThresholds from "../hooks/useThreshold.jsx";
 import { computeDeltas, derivePatientStatus } from "../utils/deltaEngine.js";
 import { statusDotStyles } from "../utils/getStatus.js";
+import useAuth from "../hooks/useAuth.jsx";
 
 export default function Patients() {
     const { patientsArray, deletePatient, resetPatients } = usePatients();
     const { vitalsArray } = useVitals();
     const { thresholds } = useThresholds();
+    const { canRegisterNewPatient } = useAuth();
 
     const [searchValue, setSearchValue] = useState("");
 
@@ -71,9 +73,15 @@ export default function Patients() {
                             🔄 Reset Seed Directory
                         </button>
                     )}
-                    <Link to="/dashboard/patients/addpatientpage">
-                        <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold">
-                            + Add Patient
+                    <Link to={canRegisterNewPatient ? "/dashboard/patients/addpatientpage" : ""}>
+                        <button
+                            className={!canRegisterNewPatient ? "flex flex-row items-center gap-1 border border-gray-300 bg-gray-200 text-gray-400 rounded-md px-2 py-1.5 cursor-not-allowed"
+                                : "flex flex-row gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:scale-105 hover:bg-blue-800 transition-all text-xs sm:text-sm font-semibold"
+                            }
+                            title={!canRegisterNewPatient ? "You do not have access to register new patients" : ""} //the title is not displaying here...recheck 
+                            disabled={!canRegisterNewPatient}>
+                            {!canRegisterNewPatient ? <LockIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                            Add Patient
                         </button>
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 import { UserGroupIcon, DocumentDuplicateIcon, CalendarIcon, UserPlusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Clock4Icon } from "lucide-react";
+import { Clock4Icon, LockIcon } from "lucide-react";
 import DashboardCard from "../components/DashboardCard";
 import StatCard from "../components/StatCard";
 import IndividualAppointment from "../components/Individualappointment";
@@ -7,16 +7,16 @@ import DashboardQuickActions from "../components/DashboardQuickActions";
 import useAppointments from "../hooks/useAppointments";
 import usePatients from "../hooks/usePatients";
 import useVitals from "../hooks/useVitals";
-import useThresholds from "../hooks/useThreshold.jsx";
 import { computeDeltas, derivePatientStatus } from "../utils/deltaEngine.js";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth.jsx";
 
 export default function Dashboard() {
 
     const { appointmentsList } = useAppointments();
     const { patientsArray } = usePatients();
     const { vitalsArray } = useVitals();
-    const { thresholds } = useThresholds();
+    const { isNurse } = useAuth();
 
 
     const filteredPatients = patientsArray.filter((patient) => {
@@ -120,16 +120,21 @@ export default function Dashboard() {
             </section>
 
             {/* Quick Actions */}
-            <h2 className="font-semibold text-lg mt-6 mb-3">Quick Actions</h2>
-            <div className="flex flex-col sm:flex-row pb-10 gap-4 mb-8">
-                <Link to={'/dashboard/patients/addpatientpage'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
-                    <DashboardQuickActions quickActionTitle="Add Patient" icon={UserPlusIcon} />
-                </Link>
-                <Link to={'/dashboard/appointments'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
-                    <DashboardQuickActions quickActionTitle="Appointment" icon={PlusIcon} />
-                </Link>
-                {/* Future actions like Generate Report or Configure Alerts can be added later */}
-            </div>
+            {isNurse &&
+                <>
+                    <h2 className="font-semibold text-lg mt-6 mb-3">Quick Actions</h2>
+                    <div className="flex flex-col sm:flex-row pb-10 gap-4 mb-8">
+                        <Link to={'/dashboard/patients/addpatientpage'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
+                            <DashboardQuickActions quickActionTitle="Add Patient" icon={UserPlusIcon} />
+                        </Link>
+                        <Link to={'/dashboard/appointments'} className="w-full sm:w-auto sm:flex-1 sm:max-w-[200px]">
+                            <DashboardQuickActions quickActionTitle="Appointment" icon={PlusIcon} />
+                        </Link>
+                        {/* Future actions like Generate Report or Configure Alerts can be added later */}
+                    </div>
+                </>
+            }
+
         </main>
     );
 }

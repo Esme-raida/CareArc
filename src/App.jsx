@@ -17,8 +17,11 @@ import PersonalizedAppointments from "./pages/PersonalizedAppointments.jsx";
 import PersonalizedNotes from "./pages/PersonalizedNotes.jsx";
 import PersonalizedFiles from "./pages/PersonalizedFiles.jsx";
 import PatientTimeline from "./pages/PatientTimeline.jsx";
+import useAuth from "./hooks/useAuth.jsx";
 
 function App() {
+
+  const { isRecords, canRegisterNewPatient } = useAuth();
 
   return (
     <Router> {/* Navigation manager of the whole app */}
@@ -30,13 +33,13 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
 
           {/*DashboardLayout renders sidebar + outlet, hence why all the nested routes live in the parent route*/}
-          <Route index element={<Dashboard />} />{/*Default child route, this is what will be shown in outlet by default when dashboard is clicked*/}
+          <Route index element={isRecords ? <Navigate to="patients" replace /> : <Dashboard />} />{/*Default child route, this is what will be shown in outlet by default when dashboard is clicked*/}
 
           {/*Actual Patients Page*/}
           <Route path="patients" element={<Patients />} />
 
           {/*Add Patients page*/}
-          <Route path="patients/addpatientpage" element={<AddPatientPage />} />
+          <Route path="patients/addpatientpage" element={canRegisterNewPatient ? <AddPatientPage /> : <Navigate to="/dashboard/patients" replace />} />
 
           {/*Patients Details Page*/}
           <Route path="patients/patientsdetail/:patientsId" element={<PatientsDetail />} >
@@ -52,7 +55,7 @@ function App() {
           <Route path="appointments" element={<Appointments />} />
 
           {/*Settings Page with nested routes */}
-          <Route path="settings" element={<Settings />}>
+          <Route path="settings" element={!isRecords ? <Settings /> : <Navigate to="/dashboard/patients" replace />}>
             <Route index element={<Profile />} />
             <Route path="profile" element={<Profile />} />
             <Route path="system" element={<System />} />

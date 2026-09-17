@@ -21,7 +21,7 @@ export const MOCK_USERS = {
     },
     records: {
         id: "U003",
-        name: "Jordan Lee",
+        name: " John Lee",
         role: "records",
         title: "Health Records Administrator",
         avatar: "JL"
@@ -63,11 +63,18 @@ export default function AuthProvider({ children }) {
     const isDoctor = user?.role === "doctor";
     const isNurse = user?.role === "nurse";
     const isRecords = user?.role === "records";
-    const canAccessClinical = isDoctor || isNurse;
+
+
+    const canBookAppointments = isNurse || isRecords;
+    const canRegisterNewPatient = isNurse || isRecords;
+    const canAccessClinicalNotes = isDoctor || isNurse;
 
     return (
         <AuthContext.Provider
-            value={{ user, login, logout, isDoctor, isNurse, isRecords, canAccessClinical }}>
+            value={{
+                user, login, logout, isDoctor, isNurse, isRecords,
+                canAccessClinicalNotes, canRegisterNewPatient, canBookAppointments
+            }}>
             {children}
         </AuthContext.Provider>
     )
